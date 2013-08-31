@@ -1,0 +1,29 @@
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
+dependencies {
+//    compile group: 'commons-daemon', name: 'commons-daemon', version: '1.0.15'
+//    compile group: 'org.reflections', name: 'reflections', version: '0.9.9-RC1'
+    compile group: 'org.apache.commons', name: 'commons-math3', version: '3.0'
+//    
+//    runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.5'
+}
+
+//sourceSets {
+//    main {
+//        java {
+//            srcDir 'src'
+//        }
+//        resources {
+//            srcDir 'src'
+//        }
+//    }
+//}
+
