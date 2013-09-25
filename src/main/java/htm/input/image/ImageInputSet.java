@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
@@ -56,7 +56,7 @@ public class ImageInputSet extends InputSet {
         return img;
     }
     
-    private static Map<String, Input> addInputs(File image) throws IOException {
+    public static Collection<Input<?>> addInputs(File image) throws IOException {
         
         BufferedImage img = null;
         try {
@@ -66,7 +66,7 @@ public class ImageInputSet extends InputSet {
             throw new RuntimeException(io);
         }
         
-        Map<String, Input> inputs = new HashMap<String, Input>();
+        Collection<Input<?>> inputs = new ArrayList<Input<?>>();
         
         int width = img.getWidth();
         int height = img.getHeight();
@@ -75,8 +75,10 @@ public class ImageInputSet extends InputSet {
             for (int j = 0; j < width; j+=16) {
                 int[] rgb = getRGB(img.getRGB(j, i));
                 PixelInput pixel = new PixelInput(j, i);
-                inputs.put(j+"_"+i, pixel);
                 pixel.setValue(rgb);
+                if (pixel.isActive()) {
+                    inputs.add(pixel);
+                }
             }
         }
         

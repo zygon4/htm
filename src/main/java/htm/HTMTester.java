@@ -11,7 +11,10 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -57,13 +60,21 @@ public class HTMTester {
             }
         };
         
-        File inputDir = new File("/home/davec/src/lab/main/htm/input/image/erin");
+        File inputDir = new File("/home/davec/src/lab/htm/src/main/java/htm/input/image/erin");
         File[] inputFiles = inputDir.listFiles(filter);
         List<ImageInputSet> inputs = new ArrayList<ImageInputSet>();
         
         for (File input : inputFiles) {
             long start = System.currentTimeMillis();
             inputs.add(new ImageInputSet(input));
+            Collection<Input<?>> addInputs = ImageInputSet.addInputs(input);
+            
+            Collection<PixelInput> pixels = new ArrayList<PixelInput>();
+            Collections.addAll(pixels, addInputs.toArray(new PixelInput[pixels.size()]));
+            
+            pixels = draw(2448, 3264, pixels);
+            ImageUtil.writeImage(2448, 3264, pixels, "/tmp/erin_"+input.getName()+".png");
+            
             long end = System.currentTimeMillis();
             System.out.println("loading image " + input.getAbsolutePath() + " took " + (end-start));
         }
@@ -105,7 +116,8 @@ public class HTMTester {
             pixelInputs.add(pixel);
         }
         
-        ImageUtil.writeImage(width, height, pixelInputs, "/tmp/erin.png");
+        Collection<PixelInput> drawnImage = draw(width, height, pixelInputs);
+        ImageUtil.writeImage(width, height, drawnImage, "/tmp/erin.png");
         
         System.in.read();
         
@@ -138,5 +150,90 @@ public class HTMTester {
 //
 //            System.out.println();
 //        }
+    }
+    
+    private static void addPixels (int width, int height, int x, int y, Collection<PixelInput> pixels) {
+        int xi = Math.max(0, x - 8);
+        int yj = Math.max(0, y - 8);
+        int xm = Math.min(width, x + 8);
+        int ym = Math.min(height, y + 8);
+        
+        for (int i = xi; i < xm; i++) {
+            for (int j = yj; j < ym; j++) {
+                PixelInput in = new PixelInput(i, j);
+                in.setValue(ImageInputSet.getRGB(0));
+                pixels.add(in);
+            }
+        }
+    }
+    
+    private static Collection<PixelInput> draw (int width, int height, Collection<PixelInput> pixelInputs) {
+        
+        List<PixelInput> inputs = new ArrayList<>(pixelInputs);
+        Set<String> inputCoords = new HashSet<String>();
+        
+        int minx = Integer.MAX_VALUE;
+        int maxx = Integer.MIN_VALUE;
+        int miny = Integer.MAX_VALUE;
+        int maxy = Integer.MIN_VALUE;
+        int count = pixelInputs.size();
+        
+        for (PixelInput input : inputs) {
+            int x1 = input.getX();
+            int y1 = input.getY();
+            addPixels(width, height, x1, y1, pixelInputs);
+        }
+        
+        return pixelInputs;
+        
+//        for (PixelInput input : pixelInputs) {
+//            int x1 = input.getX();
+//            int y1 = input.getY();
+//            
+//            if (x1 < minx) {
+//                minx = x1;
+//            }
+//            if (x1 > maxx) {
+//                maxx = x1;
+//            }
+//            if (y1 < miny) {
+//                miny = y1;
+//            }
+//            if (y1 > maxy) {
+//                maxy = y1;
+//            }
+//            
+//            System.out.println(x1 + "/" + y1);
+//            
+//            for (PixelInput otherInput : pixelInputs) {
+//                if (input != otherInput) {
+//                    int x2 = otherInput.getX();
+//                    int y2 = otherInput.getY();
+//
+//                    // draw a line
+//                    // y = mx + b
+//                    int ys = y2 - y1;
+//                    int xs = x2 - x1;
+//
+//                    int slope = xs != 0 ? (ys / xs) : 0;
+//
+//                    for (int i = x1; i < x2 - 16; i+=16) {
+//                        int y = y1 + slope *(i - x1);
+//                        String key = i+""+y;
+//                        if (!inputCoords.contains(key)) {
+//                            PixelInput in = new PixelInput(i, y);
+//                            in.setValue(ImageInputSet.getRGB(0));
+//                            inputs.add(in);
+//                            inputCoords.add(key);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        
+//        System.out.printf("count %d, minx %d, maxx %d, miny %d, maxy %d\n", 
+//                count, minx, maxx, miny, maxy);
+//        
+//        return inputs;
     }
 }

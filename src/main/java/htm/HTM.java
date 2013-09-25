@@ -4,6 +4,7 @@ package htm;
 import htm.input.Input;
 import htm.input.InputSet;
 import htm.pooling.spatial.SpatialPooler;
+import htm.pooling.spatial.TemporalPooler;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -15,7 +16,7 @@ public class HTM extends Thread {
 
     private final InputProvider inputProvider;
     private final SpatialPooler spatialPooler = new SpatialPooler();
-    // todo: temporal pooler
+    private final TemporalPooler temporalPooler = new TemporalPooler();
     private final Region[][] regionsByLevel;
     
     private volatile boolean running = false;
@@ -64,10 +65,30 @@ public class HTM extends Thread {
         
         System.out.println("Processing input");
         
+        InputSet inputSet = input;
+        
         for (Region[] regions : this.regionsByLevel) {
+            
+            Collection<Input<?>> connectedInputs = new ArrayList<Input<?>>();
+            
             for (Region region : regions) {
-                this.spatialPooler.process(region, input);
+                
+                Collection<Input<?>> spatialInputs = new ArrayList<Input<?>>();
+                
+                // perform spatial pooling
+                this.spatialPooler.process(region, inputSet);
+                
+                // pull out the connections
+                region.getConnectedInputs(spatialInputs);
+                
+                // feed the connections into the temporal pooler
+                this.temporalPooler.process(region, new InputSet(spatialInputs));
+                
+                // the remaining connections become input into the next level
+                region.getConnectedInputs(connectedInputs);
             }
+            
+            inputSet = new InputSet(connectedInputs);
         }
     }
     

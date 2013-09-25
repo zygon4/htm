@@ -20,7 +20,7 @@ public class PixelInput extends Input<int[]> {
         return x+"_"+y;
     }
     
-    PixelInput(int i, int j) {
+    public PixelInput(int i, int j) {
         super(genKey(i, j));
         this.x = i;
         this.y = j;
