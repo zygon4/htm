@@ -1,5 +1,5 @@
 
-package htm.pooling.spatial;
+package htm.pooling.temporal;
 
 import htm.Region;
 import htm.input.InputSet;

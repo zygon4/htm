@@ -4,7 +4,7 @@ package htm;
 import htm.input.Input;
 import htm.input.InputSet;
 import htm.pooling.spatial.SpatialPooler;
-import htm.pooling.spatial.TemporalPooler;
+import htm.pooling.temporal.TemporalPooler;
 import java.util.ArrayList;
 import java.util.Collection;
 
