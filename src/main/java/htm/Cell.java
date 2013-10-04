@@ -2,6 +2,7 @@
 package htm;
 
 import htm.input.Input;
+import java.util.Collection;
 
 /**
  *
@@ -15,8 +16,11 @@ public class Cell extends Input<Boolean> {
         NOT_ACTIVE;
     }
 
-    public Cell(String id) {
+    private final Collection<Segment> distralDendrites;
+    
+    public Cell(String id, Collection<Segment> distralDendrites) {
         super(id);
+        this.distralDendrites = distralDendrites;
     }
     
     // TBD: state lock

@@ -15,14 +15,14 @@ public class Column extends Input<Boolean> {
 
     private final DescriptiveStatistics activeDutyCycle = new DescriptiveStatistics(1000);
     private final Segment proximalDendrite;
-    private final Collection<Segment> distralDendrites;
+    private final Collection<Cell> cells;
     
     private boolean suppressed = false;
 
-    public Column(String id, Segment proximalDendrite, Collection<Segment> distralDendrites) {
+    public Column(String id, Segment proximalDendrite, Collection<Cell> cells) {
         super(id);
         this.proximalDendrite = proximalDendrite;
-        this.distralDendrites = distralDendrites;
+        this.cells = cells;
     }
     
     public void getConnectedInputs(Collection<Input<?>> connectedInputs) {
@@ -60,8 +60,8 @@ public class Column extends Input<Boolean> {
     
     private boolean isHorizontalActive() {
         
-        for (Segment segment : this.distralDendrites) {
-            if (segment.isActive()) {
+        for (Cell cell : this.cells) {
+            if (cell.isActive()) {
                 return true;
             }
         }
