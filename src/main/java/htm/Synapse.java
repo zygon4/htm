@@ -9,10 +9,10 @@ import htm.input.Input;
  */
 public class Synapse implements InputReceiver {
 
-    private static double CONNECTION_PERMENANCE = 0.5;
-    private static double PERMANENCE_ADJUSTMENT = 0.01;
-    private static double MAX_PERMANENCE = 1.0;
-    private static double MIN_PERMANENCE = 0.0;
+    private static final double CONNECTION_PERMENANCE = 0.5;
+    private static final double PERMANENCE_ADJUSTMENT = 0.01;
+    private static final double MAX_PERMANENCE = 1.0;
+    private static final double MIN_PERMANENCE = 0.0;
     
     private final String inputId;
     private Input<?> input;
