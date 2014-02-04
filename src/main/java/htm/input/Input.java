@@ -3,10 +3,11 @@ package htm.input;
 /**
  *
  * @author davec
+ * @param <T>
  */
 public abstract class Input<T> {
     
-    private String id;
+    private final String id;
     private T value;
 
     public Input(String id) {
