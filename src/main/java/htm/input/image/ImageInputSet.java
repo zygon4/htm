@@ -19,9 +19,17 @@ import javax.imageio.stream.ImageInputStream;
  */
 public class ImageInputSet extends InputSet {
     
+    private final File image;
+    
     // additional constructor for file array
     public ImageInputSet(File image) throws IOException {
         super (addInputs(image));
+        
+        this.image = image;
+    }
+
+    public File getImage() {
+        return this.image;
     }
     
     public static int getValue(int[] argb) {
