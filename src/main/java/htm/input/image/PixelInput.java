@@ -9,9 +9,9 @@ import htm.input.Input;
  */
 public class PixelInput extends Input<int[]> {
 
-    private static int R_IDX = 0;
-    private static int G_IDX = 1;
-    private static int B_IDX = 2;
+    private static final int R_IDX = 0;
+    private static final int G_IDX = 1;
+    private static final int B_IDX = 2;
     
     private final int x;
     private final int y;
