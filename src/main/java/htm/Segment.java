@@ -6,6 +6,7 @@ import htm.input.InputSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Random;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
@@ -26,7 +27,7 @@ public class Segment {
     
     // Having the boost here is a bit sketchy - this sort of pushes this into 
     // the realm of being a proximal dendrite segment.
-    private double boost = 1.0;
+    private double boost = new Random().nextDouble();
     
     private boolean isActive = false;
     
@@ -81,13 +82,19 @@ public class Segment {
     
     boolean isOverlapGreaterThanLocal(Collection<Segment> localSegments) {
         
+        int equalCount = 0;
+        
         for (Segment segment : localSegments) {
-            if (this.overlapRatio > 0 && this.overlapRatio >= segment.overlapRatio) {
-                return true;
+            if (this.overlapRatio > 0) {
+                if (this.overlapRatio > segment.overlapRatio) {
+                    return true;
+                } else if (this.overlapRatio == segment.overlapRatio) {
+                    equalCount ++;
+                }
             }
         }
         
-        return false;
+        return equalCount == localSegments.size();
     }
     
     public void process() {

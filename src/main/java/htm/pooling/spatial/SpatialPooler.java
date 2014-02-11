@@ -14,8 +14,6 @@ public class SpatialPooler {
 
     private static final int DESIRED_LOCAL_ACTIVITY = 10;
     
-//    private final InputController inputController = new InputController();
-    
     // This is just quick/dirty neighborhood calculation
     private static Collection<Column> getNeighbors(int idx, Column[] columns, int radius) {
         Collection<Column> neighbors = new ArrayList<Column>();
@@ -47,11 +45,10 @@ public class SpatialPooler {
         for (int i = 0; i < columns.length; i++) {
             
             Column column = columns[i];
-            boolean isActive = column.isActive();
             
             Collection<Column> neighbors = getNeighbors(i, columns, DESIRED_LOCAL_ACTIVITY);
             
-            if (isActive) {
+            if (column.isActive()) {
                 boolean suppress = !column.isActivityGreaterThanLocal(neighbors);
                 column.setSuppressed(suppress);
             }

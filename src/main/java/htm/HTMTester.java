@@ -51,7 +51,7 @@ public class HTMTester {
         return new ImageInputSet(file);
     }
     
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         FilenameFilter filter = new FilenameFilter() {
 
             @Override
@@ -62,11 +62,12 @@ public class HTMTester {
         
         File inputDir = new File("/home/davec/src/lab/htm/src/main/java/htm/input/image/erin");
         File[] inputFiles = inputDir.listFiles(filter);
-        List<ImageInputSet> inputs = new ArrayList<ImageInputSet>();
+        List<ImageInputSet> inputSets = new ArrayList<ImageInputSet>();
         
-        for (File input : inputFiles) {
+        for (int i = 0; i < 2; i++) {
+            File input = inputFiles[0];
             long start = System.currentTimeMillis();
-            inputs.add(new ImageInputSet(input));
+            inputSets.add(new ImageInputSet(input));
             Collection<Input<?>> addInputs = ImageInputSet.addInputs(input);
             
             Collection<PixelInput> pixels = new ArrayList<PixelInput>();
@@ -79,45 +80,54 @@ public class HTMTester {
             System.out.println("loading image " + input.getAbsolutePath() + " took " + (end-start));
         }
         
+        System.out.println("Done loading images\n");
+        
         InputProvider inputProvider = new InputProvider();
-        Region[][] regionsByLevel = { { createRegion(128, 50, inputs.get(0)) } };
+        Region[][] regionsByLevel = { { createRegion(128, 50, inputSets.get(0)) } };
         
         HTM htm = new HTM(inputProvider, regionsByLevel);
         
         htm.initialize();
         
-        for (int i = 0; i < 100; i++) {
-            for (InputSet file : inputs) {
+//        for (int i = 0; i < 100; i++) {
+            for (ImageInputSet inputSet : inputSets) {
 
                 try {
-                    inputProvider.put(file);
+                    inputProvider.put(inputSet);
                 } catch (InterruptedException ie) {
                     ie.printStackTrace();
                 }
+                
+
+//                Thread.sleep (2000);
+                System.out.println("Press anything to continue");
+                System.in.read();
+                
+                drawImage(htm.getConnectedInputs(), "/tmp/"+inputSet.getImage().getName()+"_img.png");
             }
-        }
+//        }
         
-        System.in.read();
-        
-        Collection<Input<?>> connectedInputs = htm.getConnectedInputs();
-        
-        Collection<PixelInput> pixelInputs = new ArrayList<PixelInput>();
-        int width = 0;
-        int height = 0;
-        
-        for (Input<?> input : connectedInputs) {
-            PixelInput pixel = (PixelInput)input;
-            int[] location = pixel.getLocation();
-            int w = location[0];
-            int h = location[1];
-            width = Math.max(width, w);
-            height = Math.max(height, h);
-            
-            pixelInputs.add(pixel);
-        }
-        
-        Collection<PixelInput> drawnImage = draw(width, height, pixelInputs);
-        ImageUtil.writeImage(width, height, drawnImage, "/tmp/erin.png");
+//        System.in.read();
+//        
+//        Collection<Input<?>> connectedInputs = htm.getConnectedInputs();
+//        
+//        Collection<PixelInput> pixelInputs = new ArrayList<PixelInput>();
+//        int width = 0;
+//        int height = 0;
+//        
+//        for (Input<?> input : connectedInputs) {
+//            PixelInput pixel = (PixelInput)input;
+//            int[] location = pixel.getLocation();
+//            int w = location[0];
+//            int h = location[1];
+//            width = Math.max(width, w);
+//            height = Math.max(height, h);
+//            
+//            pixelInputs.add(pixel);
+//        }
+//        
+//        Collection<PixelInput> drawnImage = draw(width, height, pixelInputs);
+//        ImageUtil.writeImage(width, height, drawnImage, "/tmp/erin.png");
         
         System.in.read();
         
@@ -150,6 +160,26 @@ public class HTMTester {
 //
 //            System.out.println();
 //        }
+    }
+    
+    private static void drawImage (Collection<Input<?>> connectedInputs, String filepath) throws IOException {
+        Collection<PixelInput> pixelInputs = new ArrayList<PixelInput>();
+        int width = 0;
+        int height = 0;
+        
+        for (Input<?> input : connectedInputs) {
+            PixelInput pixel = (PixelInput)input;
+            int[] location = pixel.getLocation();
+            int w = location[0];
+            int h = location[1];
+            width = Math.max(width, w);
+            height = Math.max(height, h);
+            
+            pixelInputs.add(pixel);
+        }
+        
+        Collection<PixelInput> drawnImage = draw(width, height, pixelInputs);
+        ImageUtil.writeImage(width, height, drawnImage, filepath);
     }
     
     private static void addPixels (int width, int height, int x, int y, Collection<PixelInput> pixels) {

@@ -26,7 +26,9 @@ public class Column extends Input<Boolean> {
     }
     
     public void getConnectedInputs(Collection<Input<?>> connectedInputs) {
-        this.proximalDendrite.getConnectedInputs(connectedInputs);
+        if (!this.suppressed) {
+            this.proximalDendrite.getConnectedInputs(connectedInputs);
+        }
     }
 
     @Override
@@ -42,7 +44,9 @@ public class Column extends Input<Boolean> {
         Collection<Segment> localSegments = new ArrayList<Segment>();
         
         for (Column localColumn : columns) {
-            localSegments.add(localColumn.proximalDendrite);
+            if (!localColumn.isSuppressed()) {
+                localSegments.add(localColumn.proximalDendrite);
+            }
         }
         
         return localSegments;
@@ -67,6 +71,10 @@ public class Column extends Input<Boolean> {
         }
         
         return false;
+    }
+
+    public boolean isSuppressed() {
+        return this.suppressed;
     }
     
     public void learn(Collection<Column> neighbors) {

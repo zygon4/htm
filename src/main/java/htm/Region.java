@@ -41,7 +41,9 @@ public class Region {
 
     public void getConnectedInputs(Collection<Input<?>> connectedInputs) {
         for (Column col : this.columns) {
-            col.getConnectedInputs(connectedInputs);
+            if (!col.isSuppressed()) {
+                col.getConnectedInputs(connectedInputs);
+            }
         }
     }
     
