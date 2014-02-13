@@ -22,8 +22,6 @@ public class ImageUtil {
             }
         }
         
-//        ArrayList<PixelInput> hulled = new FastConvexHull().execute(new ArrayList<PixelInput>(pixels));
-        
         for (PixelInput pixel : pixels) {
             int[] value = pixel.getValue();
             int rgb = ImageInputSet.getValue(value);
