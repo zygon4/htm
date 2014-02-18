@@ -1,7 +1,6 @@
 
 package htm.core;
 
-import htm.Input;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -10,23 +9,6 @@ import org.junit.Test;
  * @author zygon
  */
 public class SynapseTest {
-
-    private static class TestInput extends Input<Boolean> {
-
-        public TestInput(String id) {
-            super(id);
-        }
-
-        @Override
-        public String getDisplayString() {
-            return "testInput";
-        }
-
-        @Override
-        public boolean isActive() {
-            return this.getValue() == Boolean.TRUE;
-        }
-    }
     
     @Test
     public void testDefaultConnection() {
@@ -47,7 +29,7 @@ public class SynapseTest {
         
         Assert.assertFalse(synapse.isConnected());
         
-        TestInput testInput = new TestInput("testid");
+        BooleanInput testInput = new BooleanInput("testid");
         testInput.setValue(Boolean.TRUE);
         
         Assert.assertEquals(Boolean.TRUE, testInput.getValue());
@@ -72,7 +54,7 @@ public class SynapseTest {
         
         Assert.assertFalse(synapse.isConnected());
         
-        TestInput testInput = new TestInput("testid");
+        BooleanInput testInput = new BooleanInput("testid");
         testInput.setValue(Boolean.TRUE);
         
         Assert.assertEquals(Boolean.TRUE, testInput.getValue());
