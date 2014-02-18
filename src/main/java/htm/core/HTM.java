@@ -4,8 +4,6 @@ package htm.core;
 import htm.Input;
 import htm.InputProvider;
 import htm.InputSet;
-import htm.pooling.spatial.SpatialPooler;
-import htm.pooling.temporal.TemporalPooler;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -16,16 +14,18 @@ import java.util.Collection;
 public class HTM extends Thread {
 
     private final InputProvider inputProvider;
-    private final SpatialPooler spatialPooler = new SpatialPooler();
-    private final TemporalPooler temporalPooler = new TemporalPooler();
+    private final Pooler spatialPooler;
+    private final Pooler temporalPooler;
     private final Region[][] regionsByLevel;
     
     private volatile boolean running = false;
 
-    public HTM(InputProvider inputProvider, Region[][] regionsByLevel) {
+    public HTM(InputProvider inputProvider, Region[][] regionsByLevel, Pooler spatialPooler, Pooler temporalPooler) {
         super();
         this.inputProvider = inputProvider;
         this.regionsByLevel = regionsByLevel;
+        this.spatialPooler = spatialPooler;
+        this.temporalPooler = temporalPooler;
     }
 
     public void initialize() {

@@ -7,6 +7,8 @@ import htm.InputSet;
 import htm.input.image.ImageInputSet;
 import htm.input.image.ImageUtil;
 import htm.input.image.PixelInput;
+import htm.pooling.spatial.SpatialPooler;
+import htm.pooling.temporal.TemporalPooler;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -90,7 +92,7 @@ public class HTMTester {
         InputProvider inputProvider = new InputProvider();
         Region[][] regionsByLevel = { { createRegion(128, 50, inputSets.get(0)) } };
         
-        HTM htm = new HTM(inputProvider, regionsByLevel);
+        HTM htm = new HTM(inputProvider, regionsByLevel, new SpatialPooler(), new TemporalPooler());
         
         htm.initialize();
         

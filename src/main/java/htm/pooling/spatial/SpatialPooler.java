@@ -3,6 +3,7 @@ package htm.pooling.spatial;
 import htm.core.Column;
 import htm.core.Region;
 import htm.InputSet;
+import htm.core.Pooler;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -10,7 +11,7 @@ import java.util.Collection;
  *
  * @author david.charubini
  */
-public class SpatialPooler {
+public class SpatialPooler implements Pooler {
 
     private static final int DESIRED_LOCAL_ACTIVITY = 10;
     
@@ -30,6 +31,7 @@ public class SpatialPooler {
         return neighbors;
     }
     
+    @Override
     public void process(Region region, InputSet inputSet) {
         
         region.setInput(inputSet);
