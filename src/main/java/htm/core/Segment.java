@@ -1,6 +1,9 @@
 
-package htm;
+package htm.core;
 
+import htm.Input;
+import htm.InputReceiver;
+import htm.InputSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

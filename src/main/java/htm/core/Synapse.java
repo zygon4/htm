@@ -1,5 +1,8 @@
 
-package htm;
+package htm.core;
+
+import htm.Input;
+import htm.InputReceiver;
 
 /**
  *

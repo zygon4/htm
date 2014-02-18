@@ -1,6 +1,9 @@
 
-package htm;
+package htm.core;
 
+import htm.Input;
+import htm.InputProvider;
+import htm.InputSet;
 import htm.pooling.spatial.SpatialPooler;
 import htm.pooling.temporal.TemporalPooler;
 import java.util.ArrayList;

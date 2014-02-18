@@ -1,7 +1,7 @@
 
 package htm.pooling.temporal;
 
-import htm.Region;
+import htm.core.Region;
 import htm.InputSet;
 
 /**

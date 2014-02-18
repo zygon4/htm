@@ -1,7 +1,7 @@
 package htm.pooling.spatial;
 
-import htm.Column;
-import htm.Region;
+import htm.core.Column;
+import htm.core.Region;
 import htm.InputSet;
 import java.util.ArrayList;
 import java.util.Collection;

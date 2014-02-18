@@ -1,6 +1,9 @@
 
-package htm;
+package htm.core;
 
+import htm.Input;
+import htm.InputProvider;
+import htm.InputSet;
 import htm.input.image.ImageInputSet;
 import htm.input.image.ImageUtil;
 import htm.input.image.PixelInput;
