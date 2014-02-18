@@ -9,14 +9,15 @@ import htm.input.Input;
  */
 public class Synapse implements InputReceiver {
 
-    private static final double CONNECTION_PERMENANCE = 0.5;
-    private static final double PERMANENCE_ADJUSTMENT = 0.01;
-    private static final double MAX_PERMANENCE = 1.0;
-    private static final double MIN_PERMANENCE = 0.0;
+    static final double CONNECTION_PERMENANCE = 0.5;
+    static final double DEFAULT_PERMENANCE = 0.4;
+    static final double PERMANENCE_ADJUSTMENT = 0.01;
+    static final double MAX_PERMANENCE = 1.0;
+    static final double MIN_PERMANENCE = 0.0;
     
     private final String inputId;
     private Input<?> input;
-    private double permanence = 0.5;
+    private double permanence = DEFAULT_PERMENANCE;
 
     public Synapse(String inputId) {
         this.inputId = inputId;
