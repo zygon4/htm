@@ -1,8 +1,8 @@
 
 package htm.input.image;
 
-import htm.input.Input;
-import htm.input.InputSet;
+import htm.Input;
+import htm.InputSet;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;

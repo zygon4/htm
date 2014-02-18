@@ -2,7 +2,7 @@
 package htm.pooling.temporal;
 
 import htm.Region;
-import htm.input.InputSet;
+import htm.InputSet;
 
 /**
  *

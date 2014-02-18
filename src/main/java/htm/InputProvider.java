@@ -1,7 +1,6 @@
 
 package htm;
 
-import htm.input.InputSet;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**

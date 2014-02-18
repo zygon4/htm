@@ -1,8 +1,6 @@
 
 package htm;
 
-import htm.input.Input;
-import htm.input.InputSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

@@ -1,7 +1,7 @@
 
 package htm.input.image;
 
-import htm.input.Input;
+import htm.Input;
 
 /**
  *

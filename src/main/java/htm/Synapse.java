@@ -1,8 +1,6 @@
 
 package htm;
 
-import htm.input.Input;
-
 /**
  *
  * @author david.charubini

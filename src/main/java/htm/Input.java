@@ -1,4 +1,4 @@
-package htm.input;
+package htm;
 
 /**
  *

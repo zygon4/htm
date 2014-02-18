@@ -1,7 +1,6 @@
 
 package htm;
 
-import htm.input.Input;
 import junit.framework.Assert;
 import org.junit.Test;
 

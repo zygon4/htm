@@ -2,7 +2,7 @@ package htm.pooling.spatial;
 
 import htm.Column;
 import htm.Region;
-import htm.input.InputSet;
+import htm.InputSet;
 import java.util.ArrayList;
 import java.util.Collection;
 

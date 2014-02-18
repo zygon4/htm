@@ -1,5 +1,5 @@
 
-package htm.input;
+package htm;
 
 import java.util.Collection;
 import java.util.HashMap;

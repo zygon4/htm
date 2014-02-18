@@ -1,8 +1,6 @@
 
 package htm;
 
-import htm.input.Input;
-import htm.input.InputSet;
 import htm.input.image.ImageInputSet;
 import htm.input.image.ImageUtil;
 import htm.input.image.PixelInput;
@@ -50,8 +48,10 @@ public class HTMTester {
     public static InputSet create (File file) throws IOException {
         return new ImageInputSet(file);
     }
-    
-    public static void main(String[] args) throws IOException, InterruptedException {
+
+    private static final String CORE_PATH = "/home/zygon/src/github/htm";
+
+    public static void main(String[] args) throws IOException {
         FilenameFilter filter = new FilenameFilter() {
 
             @Override
@@ -59,13 +59,15 @@ public class HTMTester {
                 return dir.isDirectory() && name.endsWith(".jpg");
             }
         };
+
+        File inputDir = new File(CORE_PATH + "/src/main/java/htm/input/image/erin");
+        List<File> inputFiles = new ArrayList<File>();
+        Collections.addAll(inputFiles, inputDir.listFiles(filter));
+        Collections.shuffle(inputFiles);
         
-        File inputDir = new File("/home/davec/src/lab/htm/src/main/java/htm/input/image/erin");
-        File[] inputFiles = inputDir.listFiles(filter);
         List<ImageInputSet> inputSets = new ArrayList<ImageInputSet>();
-        
-        for (int i = 0; i < 2; i++) {
-            File input = inputFiles[0];
+
+        for (File input : inputFiles) {
             long start = System.currentTimeMillis();
             inputSets.add(new ImageInputSet(input));
             Collection<Input<?>> addInputs = ImageInputSet.addInputs(input);
@@ -97,14 +99,14 @@ public class HTMTester {
                 } catch (InterruptedException ie) {
                     ie.printStackTrace();
                 }
-                
-
+            
+        
 //                Thread.sleep (2000);
-                System.out.println("Press anything to continue");
-                System.in.read();
-                
-                drawImage(htm.getConnectedInputs(), "/tmp/"+inputSet.getImage().getName()+"_img.png");
-            }
+            System.out.println("Press anything to continue");
+            System.in.read();
+
+            drawImage(htm.getConnectedInputs(), "/tmp/"+inputSet.getImage().getName()+"_img.png");
+        }
 //        }
         
 //        System.in.read();
@@ -130,7 +132,7 @@ public class HTMTester {
 //        ImageUtil.writeImage(width, height, drawnImage, "/tmp/erin.png");
         
         System.in.read();
-        
+
         htm.uninitialize();
         
 //        for (int j = 0; j < 10; j++) {

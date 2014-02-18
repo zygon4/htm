@@ -1,7 +1,6 @@
 
 package htm;
 
-import htm.input.Input;
 import java.util.Collection;
 
 /**
