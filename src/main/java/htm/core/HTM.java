@@ -6,7 +6,6 @@ import htm.InputProvider;
 import htm.InputSet;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
