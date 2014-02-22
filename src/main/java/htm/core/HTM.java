@@ -6,6 +6,7 @@ import htm.InputProvider;
 import htm.InputSet;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -40,7 +41,9 @@ public class HTM extends Thread {
             try {
                 inputSet = this.inputProvider.take();
             } catch (InterruptedException ie) {
-                ie.printStackTrace();
+                if (this.running) {
+                    ie.printStackTrace();
+                }
             }
             
             this.process(inputSet);
