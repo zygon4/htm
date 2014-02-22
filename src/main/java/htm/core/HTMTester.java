@@ -72,6 +72,8 @@ public class HTMTester {
         
         List<ImageInputSet> inputSets = new ArrayList<ImageInputSet>();
 
+        long imageLoadStart = System.currentTimeMillis();
+        
         for (File input : inputFiles) {
             long start = System.currentTimeMillis();
             inputSets.add(new ImageInputSet(input));
@@ -87,7 +89,8 @@ public class HTMTester {
             System.out.println("loading image " + input.getAbsolutePath() + " took " + (end-start));
         }
         
-        System.out.println("Done loading images\n");
+        long imageLoadEnd = System.currentTimeMillis();
+        System.out.println("Done loading images, took " + (imageLoadEnd-imageLoadStart)/1000 + " sec\n");
         
         InputProvider inputProvider = new InputProvider();
         Region[][] regionsByLevel = { { createRegion(128, 50, inputSets.get(0)) } };
@@ -110,7 +113,11 @@ public class HTMTester {
             System.out.println("Press anything to continue");
             System.in.read();
 
-            drawImage(htm.getConnectedInputs(), "/tmp/"+inputSet.getImage().getName()+"_img.png");
+            if (!htm.getConnectedInputs().isEmpty()) {
+                String outputImg = "/tmp/"+inputSet.getImage().getName()+"_img.png";
+                System.out.println("Writing out image to: " + outputImg);
+                drawImage(htm.getConnectedInputs(), outputImg);
+            }
         }
 //        }
         
@@ -136,9 +143,13 @@ public class HTMTester {
 //        Collection<PixelInput> drawnImage = draw(width, height, pixelInputs);
 //        ImageUtil.writeImage(width, height, drawnImage, "/tmp/erin.png");
         
+        System.out.println("Press anything to exit");
         System.in.read();
 
         htm.uninitialize();
+        htm.interrupt(); // be a jerk and interrupt
+        
+        System.out.println("Uninitialized");
         
 //        for (int j = 0; j < 10; j++) {
 //            
