@@ -50,14 +50,22 @@ public class SpatialPooler implements Pooler {
             
             Collection<Column> neighbors = getNeighbors(i, columns, DESIRED_LOCAL_ACTIVITY);
             
+            column.setSuppressed(false);
+            
             if (column.isActive()) {
                 boolean suppress = !column.isActivityGreaterThanLocal(neighbors);
                 column.setSuppressed(suppress);
             }
             
             System.out.printf("[%s]", column.isActive() ? "+" : " ");
+        }
+        
+        // 3) learn
+        for (int i = 0; i < columns.length; i++) {
+            Column column = columns[i];
             
-            // 3) learn
+            Collection<Column> neighbors = getNeighbors(i, columns, DESIRED_LOCAL_ACTIVITY);
+            
             column.learn(neighbors);
         }
 
