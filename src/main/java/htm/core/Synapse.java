@@ -58,4 +58,8 @@ public class Synapse implements InputReceiver {
         
         this.input = input;
     }
+
+    /*pkg*/ void increasePermanence() {
+        this.permanence = Math.min(this.permanence + PERMANENCE_ADJUSTMENT, MAX_PERMANENCE);
+    }
 }
