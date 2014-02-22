@@ -3,7 +3,6 @@ package htm.core;
 
 import htm.Input;
 import htm.InputReceiver;
-import htm.InputSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
@@ -79,6 +78,12 @@ public class Column extends Input<Boolean> {
     }
     
     public void learn(Collection<Column> neighbors) {
+        
+        // TBD: There may be a column-specific active duty cycle which affects
+        // the columns activity as well as the segment-version.  This is to
+        // say that we may not want to pass the activeDutyCycle value into
+        // the segment - it should be able to handle itsself.
+        
         this.proximalDendrite.learn(this.isActive(), this.activeDutyCycle.getMean(), getSegments(neighbors));
     }
     
@@ -89,10 +94,6 @@ public class Column extends Input<Boolean> {
     
     public void setSuppressed(boolean suppressed) {
         this.suppressed = suppressed;
-    }
-
-    void setInput(InputSet input) {
-        this.proximalDendrite.setInput(input);
     }
     
     public boolean isActivityGreaterThanLocal(Collection<Column> neighbors) {
