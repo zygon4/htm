@@ -19,10 +19,33 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
  */
 public class Segment {
     
-    private static final double ACTIVE_THRESHOLD    = 0.1;
-    private static final double MIN_OVERLAP_PCT     = 0.1;
-    private static final double BOOST               = 0.01;
+    /**
+     * This is the synapse overlap percentage required for the segment
+     * to be considered "active".
+     */
+    private static final double ACTIVE_OVERLAP_PCT          = 0.25;
+    
+    /**
+     * This is the constant by which this Segment increases its
+     * local activity.  
+     */
+    private static final double BOOST                       = 0.01;
+    
+    /**
+     * This is the synapse overlap percentage required for the segment
+     * to be considered.  If the segment does not reach this threshold
+     * then its overlap is set to 0.
+     */
+    private static final double STIMULUS_OVERLAP_PCT        = 0.1;
+    
+    /**
+     * This is the minimum required running overlap ratio mean value.  If
+     * the running overlap mean value drops below this, then the synapses
+     * will be increased to stimulate connections.
+     */
+    private static final double MIN_OVERLAP_DUTY_PCT        = 0.01;
 
+    private final DescriptiveStatistics activeDutyCycle = new DescriptiveStatistics(1000);
     private final DescriptiveStatistics overlapDutyCycle = new DescriptiveStatistics(1000);
     private final Collection<Synapse> synapses;
     
@@ -51,15 +74,6 @@ public class Segment {
         }
     }
     
-    /**
-     * Returns the average connection rate of this segment.
-     * 
-     * @return the average connection rate of this segment.
-     */
-    public double getOverlapDutyCycle() {
-        return this.overlapDutyCycle.getMean() * 100.0;
-    }
-    
     public void getConnectedInputs(Collection<Input<?>> connectedInputs) {
         for (Synapse syn : this.synapses) {
             if (syn.isConnected()) {
@@ -85,23 +99,29 @@ public class Segment {
     
     boolean isOverlapGreaterThanLocal(Collection<Segment> localSegments) {
         
-        int equalCount = 0;
+        int greaterCount = 0;
         
-        for (Segment segment : localSegments) {
-            if (this.overlapRatio > 0) {
+        if (this.overlapRatio > 0) {
+            for (Segment segment : localSegments) {
                 if (this.overlapRatio > segment.overlapRatio) {
-                    return true;
+                    greaterCount ++;
                 } else if (this.overlapRatio == segment.overlapRatio) {
-                    equalCount ++;
+                    // arbitrarily pick one
+                    if (this.hashCode() > segment.hashCode()) {
+                        greaterCount ++;
+                    }
                 }
             }
         }
         
-        return equalCount == localSegments.size();
+        if (greaterCount == localSegments.size()) {
+            return true;
+        }
+        
+        return false;
     }
     
-    public void process() {
-        
+    private double calculateOverlap() {
         int connectedCount = 0;
         
         for (Synapse synapse : this.synapses) {
@@ -110,20 +130,37 @@ public class Segment {
             }
         }
         
-        double overlapPct = (double) connectedCount / this.synapses.size();
+        double overlapRatio = (double) connectedCount / this.synapses.size();
         
-        if (overlapPct >= MIN_OVERLAP_PCT) {
-            this.overlapRatio = overlapPct * this.boost;
-        } else {
-            this.overlapRatio = 0.0;
+        if (overlapRatio < STIMULUS_OVERLAP_PCT) {
+            return 0.0;
         }
         
-        this.overlapDutyCycle.addValue(this.overlapRatio);
-        
-        this.isActive = this.overlapRatio >= ACTIVE_THRESHOLD;
+        return overlapRatio;
     }
     
-    public void learn(boolean isActive, double activeDutyCycle, Collection<Segment> localSegments) {
+    public void process() {
+        
+        // set the overlap ratio
+        this.overlapRatio = this.calculateOverlap();
+        
+        // add boost if apppropriate
+        if (this.boost != 0.0) {
+            this.overlapRatio *= this.boost;
+        }
+        
+        // store the overlap ratio if synapse stimulation is required during
+        // learning
+        this.overlapDutyCycle.addValue(this.overlapRatio);
+        
+        // set the activation
+        this.isActive = this.overlapRatio >= ACTIVE_OVERLAP_PCT;
+        
+        // store the active duty value for boosting later
+        this.activeDutyCycle.addValue(this.isActive ? 1.0 : 0.0);
+    }
+    
+    public void learn(boolean isActive, Collection<Segment> localSegments) {
         if (isActive) {
             for (Synapse synapse : this.synapses) {
                 synapse.adjustPermanence();
@@ -139,12 +176,20 @@ public class Segment {
             }
         }
         
-        // TBD: this boosting calculation may be moved to the column
         // calculate the mix duty cycle
         double minDutyCycle = 0.01 * maxOverlapDutyCycle;
-        this.boost = getBoost (activeDutyCycle, minDutyCycle);
+        this.boost = getBoost (this.activeDutyCycle.getMean(), minDutyCycle);
         
         
-        // TODO: check the overlapdutycycle and increase synapses
+        // Check the overlap duty cycle and increase synapses.
+        // If the synapses aren't coming connected enough to activate
+        // this segment then this will help out.
+        double overlapDutyCyclePct = this.overlapDutyCycle.getMean();
+        
+        if (overlapDutyCyclePct < MIN_OVERLAP_DUTY_PCT) {
+            for (Synapse synapse : this.synapses) {
+                synapse.increasePermanence();
+            }
+        }
     }
 }

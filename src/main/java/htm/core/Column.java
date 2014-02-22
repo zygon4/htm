@@ -5,7 +5,6 @@ import htm.Input;
 import htm.InputReceiver;
 import java.util.ArrayList;
 import java.util.Collection;
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 /**
  *
@@ -13,7 +12,6 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
  */
 public class Column extends Input<Boolean> {
 
-    private final DescriptiveStatistics activeDutyCycle = new DescriptiveStatistics(1000);
     private final Segment proximalDendrite;
     private final Collection<Cell> cells;
     
@@ -84,12 +82,22 @@ public class Column extends Input<Boolean> {
         // say that we may not want to pass the activeDutyCycle value into
         // the segment - it should be able to handle itsself.
         
-        this.proximalDendrite.learn(this.isActive(), this.activeDutyCycle.getMean(), getSegments(neighbors));
+        // Also, is there a reason why we just shouldn't avoid learning if
+        // we're not active?  Wouldn't this let us use the Segment's "isActive"
+        // flag more naturally?  What's the point of learning if we're not 
+        // active?
+        
+        // So, 
+        // if (this.isActive()) {
+        //     this.proximalDendrite.learn(this.activeDutyCycle.getMean(), getSegments(neighbors));
+        // }
+        // This may be wrong - but why??
+        
+        this.proximalDendrite.learn(this.isActive(), getSegments(neighbors));
     }
     
     public void process() {
         this.proximalDendrite.process();
-        this.activeDutyCycle.addValue(this.isFeedForwardActive() ? 1.0 : 0.0);
     }
     
     public void setSuppressed(boolean suppressed) {
