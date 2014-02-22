@@ -3,7 +3,6 @@ package htm.core;
 
 import htm.Input;
 import htm.InputReceiver;
-import htm.InputSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,13 +11,16 @@ import java.util.Random;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 /**
+ * A Segment contains a collection of synapses as input. It controls its
+ * activity through them, by supplied local segments, and any local boosting
+ * activity.
  *
  * @author david.charubini
  */
 public class Segment {
     
     private static final double ACTIVE_THRESHOLD    = 0.1;
-    private static final double MIN_OVERLAP_RATIO   = 0.1;
+    private static final double MIN_OVERLAP_PCT     = 0.1;
     private static final double BOOST               = 0.01;
 
     private final DescriptiveStatistics overlapDutyCycle = new DescriptiveStatistics(1000);
@@ -108,10 +110,10 @@ public class Segment {
             }
         }
         
-        double overlap = (double) connectedCount / this.synapses.size();
+        double overlapPct = (double) connectedCount / this.synapses.size();
         
-        if (overlap >= MIN_OVERLAP_RATIO) {
-            this.overlapRatio = overlap * this.boost;
+        if (overlapPct >= MIN_OVERLAP_PCT) {
+            this.overlapRatio = overlapPct * this.boost;
         } else {
             this.overlapRatio = 0.0;
         }
@@ -129,27 +131,20 @@ public class Segment {
         }
         
         // calculate max duty cycle
-        double maxDutyCycle = 0.0;
+        double maxOverlapDutyCycle = 0.0;
         
         for (Segment local : localSegments) {
-            if (local.overlapRatio > maxDutyCycle) {
-                maxDutyCycle = local.overlapRatio;
+            if (local.overlapRatio > maxOverlapDutyCycle) {
+                maxOverlapDutyCycle = local.overlapRatio;
             }
         }
         
+        // TBD: this boosting calculation may be moved to the column
         // calculate the mix duty cycle
-        double minDutyCycle = 0.01 * maxDutyCycle;
+        double minDutyCycle = 0.01 * maxOverlapDutyCycle;
         this.boost = getBoost (activeDutyCycle, minDutyCycle);
         
         
         // TODO: check the overlapdutycycle and increase synapses
-    }
-
-    void setInput(InputSet inputSet) {
-        for (Synapse synapse : this.synapses) {
-            String id = synapse.getId();
-            Input<?> input = inputSet.getById(id);
-            synapse.send(input);
-        }
     }
 }
