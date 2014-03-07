@@ -66,7 +66,7 @@ public class HTM extends Thread {
     // TODO: return output, feed region output into higher levels
     private void process (InputSet input) {
         
-        System.out.println("Processing input");
+        System.out.println("Processing input: " + input);
         
         InputSet inputSet = input;
         
