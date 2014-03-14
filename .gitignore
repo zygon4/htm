@@ -9,3 +9,7 @@
 /.gradle/
 erin/
 .idea/
+classes/
+
+# Random probably-shouldn't-exist files
+htm.iml
