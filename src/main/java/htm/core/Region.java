@@ -54,6 +54,9 @@ public class Region {
 
     // soo this is pretty gnarly.. but i think it works
     public void setInput(InputSet inputSet) {
+        if (inputSet == null) {
+            throw new IllegalArgumentException();
+        }
         Iterator<String> iterator = this.inputReceiversById.keySet().iterator();
         while (iterator.hasNext()) {
             String key = iterator.next();

@@ -27,7 +27,7 @@ public class ImageUtil {
             int rgb = ImageInputSet.getValue(value);
             try {
                 img.setRGB(pixel.getX(), pixel.getY(), rgb);
-            } catch (RuntimeException re) {
+            } catch (Throwable re) {
                 re.printStackTrace();
             }
         }

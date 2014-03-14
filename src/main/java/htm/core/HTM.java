@@ -45,7 +45,9 @@ public class HTM extends Thread {
                 }
             }
             
-            this.process(inputSet);
+            if (inputSet != null) {
+                this.process(inputSet);
+            }
             // TODO: process output - via queue?
         }
     }
