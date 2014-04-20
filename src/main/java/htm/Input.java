@@ -1,6 +1,7 @@
 package htm;
 
 /**
+ * TBD: rename to be something like "value"?
  *
  * @author davec
  * @param <T>
