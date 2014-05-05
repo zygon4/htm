@@ -1,13 +1,12 @@
 
 package htm.input.image;
 
-import htm.Input;
+import com.google.common.collect.Lists;
 import htm.InputSet;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageInputStream;
@@ -17,15 +16,19 @@ import javax.imageio.stream.ImageInputStream;
  *
  * @author david.charubini
  */
-public class ImageInputSet extends InputSet {
+public class ImageInputSet extends InputSet<PixelInput> {
     
     private final File image;
+
+    public ImageInputSet(Collection<PixelInput> inputs) throws IOException {
+        super (inputs);
+        
+        this.image = null;
+    }
     
     // additional constructor for file array
     public ImageInputSet(File image) throws IOException {
-        super (addInputs(image));
-        
-        this.image = image;
+        this (addInputs(image));
     }
 
     public File getImage() {
@@ -64,7 +67,7 @@ public class ImageInputSet extends InputSet {
         return img;
     }
     
-    public static Collection<Input<?>> addInputs(File image) throws IOException {
+    public static Collection<PixelInput> addInputs(File image) throws IOException {
         
         BufferedImage img = null;
         try {
@@ -74,7 +77,7 @@ public class ImageInputSet extends InputSet {
             throw new RuntimeException(io);
         }
         
-        Collection<Input<?>> inputs = new ArrayList<Input<?>>();
+        Collection<PixelInput> inputs = Lists.newArrayList();
         
         int width = img.getWidth();
         int height = img.getHeight();

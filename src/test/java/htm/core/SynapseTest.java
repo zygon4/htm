@@ -12,7 +12,7 @@ public class SynapseTest {
     
     @Test
     public void testDefaultConnection() {
-        Synapse synapse = new Synapse("testid");
+        Synapse synapse = new Synapse("id");
         
         if (Synapse.CONNECTION_PERMENANCE > Synapse.DEFAULT_PERMENANCE) {
             Assert.assertFalse(synapse.isConnected());
@@ -25,7 +25,7 @@ public class SynapseTest {
     
     @Test
     public void testBecomeConnected() {
-        Synapse synapse = new Synapse("testid");
+        Synapse synapse = new Synapse("id");
         
         Assert.assertFalse(synapse.isConnected());
         
@@ -36,7 +36,7 @@ public class SynapseTest {
         
         synapse.send(testInput);
         
-        Assert.assertTrue(synapse.isActive());
+        Assert.assertTrue(synapse.getOutput().isActive());
         
         double adjustmentsUntilConnection = Math.round((Synapse.CONNECTION_PERMENANCE - Synapse.DEFAULT_PERMENANCE) / Synapse.PERMANENCE_ADJUSTMENT);
         
@@ -50,7 +50,7 @@ public class SynapseTest {
     
     @Test
     public void testLooseConnected() {
-        Synapse synapse = new Synapse("testid");
+        Synapse synapse = new Synapse("id");
         
         Assert.assertFalse(synapse.isConnected());
         
@@ -61,7 +61,7 @@ public class SynapseTest {
         
         synapse.send(testInput);
         
-        Assert.assertTrue(synapse.isActive());
+        Assert.assertTrue(synapse.getOutput().isActive());
         
         double adjustmentsUntilConnection = Math.round((Synapse.CONNECTION_PERMENANCE - Synapse.DEFAULT_PERMENANCE) / Synapse.PERMANENCE_ADJUSTMENT);
         
@@ -76,7 +76,7 @@ public class SynapseTest {
         
         testInput.setValue(Boolean.FALSE);
         
-        Assert.assertFalse(synapse.isActive());
+        Assert.assertFalse(synapse.getOutput().isActive());
         
         synapse.adjustPermanence();
         

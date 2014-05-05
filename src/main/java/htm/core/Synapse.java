@@ -1,14 +1,17 @@
 
 package htm.core;
 
+import com.google.common.collect.Queues;
 import htm.Input;
 import htm.InputReceiver;
+import htm.OutputProvider;
+import java.util.concurrent.BlockingQueue;
 
 /**
- *
+ * 
  * @author david.charubini
  */
-public class Synapse implements InputReceiver {
+public class Synapse<T extends Input<?>> implements InputReceiver<T>, OutputProvider<T> {
 
     static final double CONNECTION_PERMENANCE = 0.5;
     static final double DEFAULT_PERMENANCE = 0.4;
@@ -16,16 +19,18 @@ public class Synapse implements InputReceiver {
     static final double MAX_PERMANENCE = 1.0;
     static final double MIN_PERMANENCE = 0.0;
     
-    private final String inputId;
-    private Input<?> input;
-    private double permanence = DEFAULT_PERMENANCE;
+    private final String id;
+    private final BlockingQueue<T> inputBuffer = Queues.newArrayBlockingQueue(1000);
+    private volatile T input;
+    private volatile double permanence = DEFAULT_PERMENANCE;
 
-    public Synapse(String inputId) {
-        this.inputId = inputId;
+    public Synapse(String id) {
+        this.id = id; // TODO: UUID  +":"+String.valueOf(UUID.randomUUID().getLeastSignificantBits());
     }
-
-    public boolean isActive() {
-        return this.input.isActive();
+    
+    @Override
+    public boolean isOutputActive() {
+        return this.isConnected();
     }
     
     public boolean isConnected() {
@@ -34,32 +39,44 @@ public class Synapse implements InputReceiver {
     
     // I'm sketched out by the ratio of ups to downs -- log at some point
     public void adjustPermanence() {
-        if (this.isActive()) {
-            this.permanence = Math.min(this.permanence + PERMANENCE_ADJUSTMENT, MAX_PERMANENCE);
-        } else if (this.isConnected()) {
-            this.permanence = Math.max(this.permanence - PERMANENCE_ADJUSTMENT, MIN_PERMANENCE);
+        if (this.input != null) {
+            if (this.input.isActive()) {
+                this.permanence = Math.min(this.permanence + PERMANENCE_ADJUSTMENT, MAX_PERMANENCE);
+            } else if (this.isConnected()) {
+                this.permanence = Math.max(this.permanence - PERMANENCE_ADJUSTMENT, MIN_PERMANENCE);
+            }
         }
     }
 
-    /*pkg*/ Input<?> getInput() {
+    @Override
+    public T getOutput() {
         return this.input;
     }
-
+    
     @Override
     public String getId() {
-        return this.inputId;
+        return this.id;
     }
 
     @Override
-    public void send(Input<?> input) {
-        if (!input.getId().equals(this.inputId)) {
+    public void send(T input) {
+        if (input == null) {
             throw new IllegalArgumentException();
         }
         
-        this.input = input;
+        this.inputBuffer.offer(input);
     }
 
     /*pkg*/ void increasePermanence() {
         this.permanence = Math.min(this.permanence + PERMANENCE_ADJUSTMENT, MAX_PERMANENCE);
+    }
+
+    /*pkg*/ void activateNewInput() {
+        try {
+            this.input = this.inputBuffer.take();
+        } catch (InterruptedException intr) {
+            // LOL log
+            intr.printStackTrace();
+        }
     }
 }

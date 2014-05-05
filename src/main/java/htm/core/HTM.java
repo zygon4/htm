@@ -1,103 +1,50 @@
 
 package htm.core;
 
-import htm.Input;
-import htm.InputProvider;
-import htm.InputSet;
-import java.util.ArrayList;
+import htm.InputReceiver;
+import htm.OutputProvider;
+import htm.channel.Input.InputChannel;
+import htm.channel.output.OutputChannel;
 import java.util.Collection;
 
 /**
  *
  * @author david.charubini
  */
-public class HTM extends Thread {
+public class HTM implements IHTM {
 
-    private final InputProvider inputProvider;
-    private final Pooler spatialPooler;
-    private final Pooler temporalPooler;
-    private final Region[][] regionsByLevel;
+    // Single region for now
+    private final Region region;
     
-    private volatile boolean running = false;
-
-    public HTM(InputProvider inputProvider, Region[][] regionsByLevel, Pooler spatialPooler, Pooler temporalPooler) {
+    // Having these here might be a hack
+    private final Collection<InputReceiver> inputReceivers;
+    private final Collection<OutputProvider> outputProviders;
+    
+    public HTM(Region regionsByLevel, Collection<InputReceiver> inputReceivers, Collection<OutputProvider> outputProviders) {
         super();
-        this.inputProvider = inputProvider;
-        this.regionsByLevel = regionsByLevel;
-        this.spatialPooler = spatialPooler;
-        this.temporalPooler = temporalPooler;
-    }
-
-    public void initialize() {
-        this.running = true;
-        this.start();
+        
+        this.region = regionsByLevel;
+        this.inputReceivers = inputReceivers;
+        this.outputProviders = outputProviders;
     }
     
     @Override
-    public void run() {
-        while (this.running) {
-            InputSet inputSet = null;
-            try {
-                inputSet = this.inputProvider.take();
-            } catch (InterruptedException ie) {
-                if (this.running) {
-                    ie.printStackTrace();
-                }
-            }
-            
-            if (inputSet != null) {
-                this.process(inputSet);
-            }
-            // TODO: process output - via queue?
-        }
+    public void initialize() {
+        this.region.initialize();
     }
     
-    public Collection<Input<?>> getConnectedInputs() {
-        // TBD: take the connected synapses from the upper levels 
-        // and feed downward?
-        
-        Collection<Input<?>> connectedInputs = new ArrayList<Input<?>>();
-        
-        for (Region region : this.regionsByLevel[0]) {
-            region.getConnectedInputs(connectedInputs);
-        }
-        
-        return connectedInputs;
+    @Override
+    public void register(InputChannel inputChannel) {
+        inputChannel.addInputReceivers(this.inputReceivers);
+    }
+
+    @Override
+    public void register(OutputChannel outputChannel) {
+        outputChannel.addOutputProviders(this.outputProviders);
     }
     
-    // TODO: return output, feed region output into higher levels
-    private void process (InputSet input) {
-        
-        System.out.println("Processing input: " + input);
-        
-        InputSet inputSet = input;
-        
-        for (Region[] regions : this.regionsByLevel) {
-            
-            Collection<Input<?>> connectedInputs = new ArrayList<Input<?>>();
-            
-            for (Region region : regions) {
-                
-                Collection<Input<?>> spatialInputs = new ArrayList<Input<?>>();
-                
-                // perform spatial pooling
-                this.spatialPooler.process(region, inputSet);
-                
-                // pull out the connections
-                region.getConnectedInputs(spatialInputs);
-                
-                // feed the connections into the temporal pooler
-                this.temporalPooler.process(region, new InputSet(spatialInputs));
-                
-                // the remaining connections become input into the next level
-                region.getConnectedInputs(connectedInputs);
-            }
-            
-            inputSet = new InputSet(connectedInputs);
-        }
-    }
-    
+    @Override
     public void uninitialize() {
-        this.running = false;
+        this.region.uninitialize();
     }
 }

@@ -1,111 +1,100 @@
 
 package htm.core;
 
-import htm.Input;
-import htm.InputReceiver;
-import java.util.ArrayList;
+import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.AbstractScheduledService;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
  * @author david.charubini
  */
-public class Column extends Input<Boolean> {
+public class Column extends AbstractScheduledService {
 
+    private static final Scheduler SCHEDULER = Scheduler.newFixedDelaySchedule(0, 500, TimeUnit.MILLISECONDS);
+    
+    private final String id;
     private final Segment proximalDendrite;
     private final Collection<Cell> cells;
     
-    private boolean suppressed = false;
+    private Collection<Column> neighbors;
 
     public Column(String id, Segment proximalDendrite, Collection<Cell> cells) {
-        super(id);
+        super();
+        this.id = id;
         this.proximalDendrite = proximalDendrite;
         this.cells = cells;
     }
-    
-    public void getConnectedInputs(Collection<Input<?>> connectedInputs) {
-        if (!this.suppressed) {
-            this.proximalDendrite.getConnectedInputs(connectedInputs);
-        }
-    }
 
-    @Override
     public String getDisplayString() {
-        return "Column ["+ this.getId() + "] active [" + this.isActive() + "]";
+        return "Column [" + this.id + "] active [" + this.isActive() + "]";
     }
     
-    public Collection<InputReceiver> getFeedForwardInputReceivers() {
-        return this.proximalDendrite.getInputReceivers();
-    }
-    
-    private Collection<Segment> getSegments(Collection<Column> columns) {
-        Collection<Segment> localSegments = new ArrayList<Segment>();
+    /*pkg*/ Collection<Segment> getNeighboringSegments() {
+        Collection<Segment> localSegments = Lists.newArrayList();
         
-        for (Column localColumn : columns) {
-            if (!localColumn.isSuppressed()) {
-                localSegments.add(localColumn.proximalDendrite);
-            }
+        for (Column localColumn : this.neighbors) {
+            localSegments.add(localColumn.proximalDendrite);
+            
+            // TBD: add distral dendrites?
         }
         
         return localSegments;
     }
+
+    public Segment getProximalDendrite() {
+        return this.proximalDendrite;
+    }
     
-    @Override
     public boolean isActive() {
-        return !this.suppressed && this.isFeedForwardActive();
-//        return !this.suppressed && (this.isFeedForwardActive() || this.isHorizontalActive());
+        return this.isFeedForwardActive() || this.isHorizontalActive();
     }
 
     private boolean isFeedForwardActive() {
         return this.proximalDendrite.isActive();
     }
     
+    // TODO:
     private boolean isHorizontalActive() {
         
-        for (Cell cell : this.cells) {
-            if (cell.isActive()) {
-                return true;
-            }
-        }
+//        for (Cell cell : this.cells) {
+//            if (cell.isActive()) {
+//                return true;
+//            }
+//        }
         
         return false;
     }
-
-    public boolean isSuppressed() {
-        return this.suppressed;
-    }
     
-    public void learn(Collection<Column> neighbors) {
-        
-        // TBD: There may be a column-specific active duty cycle which affects
-        // the columns activity as well as the segment-version.  This is to
-        // say that we may not want to pass the activeDutyCycle value into
-        // the segment - it should be able to handle itsself.
-        
-        // Also, is there a reason why we just shouldn't avoid learning if
-        // we're not active?  Wouldn't this let us use the Segment's "isActive"
-        // flag more naturally?  What's the point of learning if we're not 
-        // active?
-        
-        // So, 
-        // if (this.isActive()) {
-        //     this.proximalDendrite.learn(this.activeDutyCycle.getMean(), getSegments(neighbors));
-        // }
-        // This may be wrong - but why??
-        
-        this.proximalDendrite.learn(this.isActive(), getSegments(neighbors));
-    }
-    
-    public void process() {
+    protected void doSpatialPooling() {
+        // 1) Tell the lower level synapses to compute their overlap score
         this.proximalDendrite.process();
+        
+        // 3) learn
+        this.proximalDendrite.learn(this.isActive(), getNeighboringSegments());
     }
     
-    public void setSuppressed(boolean suppressed) {
-        this.suppressed = suppressed;
+    @Override
+    protected void runOneIteration() throws Exception {
+        this.doSpatialPooling();
+    }
+
+    @Override
+    protected Scheduler scheduler() {
+        return SCHEDULER;
     }
     
-    public boolean isActivityGreaterThanLocal(Collection<Column> neighbors) {
-        Collection<Segment> localSegments = getSegments(neighbors);
-        return this.proximalDendrite.isOverlapGreaterThanLocal(localSegments);
+    /*pkg*/ void setNeighbors (Collection<Column> neighbors) {
+        if (neighbors == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        // This set is not expected to happen more than once at init time.
+        if (this.neighbors != null) {
+            throw new IllegalStateException();
+        }
+        
+        this.neighbors = neighbors;
     }
 }
