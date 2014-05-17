@@ -16,15 +16,14 @@ public class Cell extends Input<Boolean> {
         NOT_ACTIVE;
     }
 
-    private final Collection<Segment> distralDendrites;
+    private final Collection<DistralSegment> distralDendrites;
     
-    public Cell(String id, Collection<Segment> distralDendrites) {
+    public Cell(String id, Collection<DistralSegment> distralDendrites) {
         super(id);
         this.distralDendrites = distralDendrites;
     }
     
-    // TBD: state lock
-    private State state = State.NOT_ACTIVE;
+    private volatile State state = State.NOT_ACTIVE;
     
     @Override
     public boolean isActive() {

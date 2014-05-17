@@ -30,6 +30,7 @@ public class Synapse<T extends Input<?>> implements InputReceiver<T>, OutputProv
     
     @Override
     public boolean isOutputActive() {
+        System.out.println(this.id + ") synapse, permanence: " + this.permanence);
         return this.isConnected();
     }
     

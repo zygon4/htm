@@ -100,7 +100,7 @@ public class HTMDriver {
         
         driver.startUp();
         
-        Thread.sleep (1000 * 60 * 5);
+        Thread.sleep (1000 * 60 * 8);
         
         driver.shutDown();
     }

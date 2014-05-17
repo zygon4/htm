@@ -16,7 +16,7 @@ public class Region {
 
     private static int SEGMENT_ID = 0;
     
-    private static Segment createSegment(int feedForwardInputCount, Collection<InputReceiver> inputReceivers, Collection<OutputProvider> outputProvider) {
+    private static ProximalSegment createProximalSegment(int feedForwardInputCount, Collection<InputReceiver> inputReceivers, Collection<OutputProvider> outputProvider) {
         Collection<Synapse> synapses = Lists.newArrayList();
     
         int SYN_ID = 0;
@@ -30,7 +30,7 @@ public class Region {
         synSet.addInputReceivers(inputReceivers);
         synSet.addOutputProviders(outputProvider);
         
-        return new Segment(SEGMENT_ID++, synSet, null);
+        return new ProximalSegment(SEGMENT_ID++, synSet, null);
     }
     
     private static Collection<Column> getNeighbors(int idx, Column[] columns, int radius) {
@@ -58,7 +58,7 @@ public class Region {
         List<Segment> segments = Lists.newArrayList();
         
         for (int i = 0; i < columnCount; i++) {
-            Segment segment = createSegment(feedForwardSynapseCount, inputReceivers, outputProvider);
+            ProximalSegment segment = createProximalSegment(feedForwardSynapseCount, inputReceivers, outputProvider);
             columns.add(new Column("col_"+(i+1), segment, null));
             segments.add(segment);
         }

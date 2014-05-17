@@ -15,12 +15,12 @@ public class Column extends AbstractScheduledService {
     private static final Scheduler SCHEDULER = Scheduler.newFixedDelaySchedule(0, 500, TimeUnit.MILLISECONDS);
     
     private final String id;
-    private final Segment proximalDendrite;
+    private final ProximalSegment proximalDendrite;
     private final Collection<Cell> cells;
     
     private Collection<Column> neighbors;
 
-    public Column(String id, Segment proximalDendrite, Collection<Cell> cells) {
+    public Column(String id, ProximalSegment proximalDendrite, Collection<Cell> cells) {
         super();
         this.id = id;
         this.proximalDendrite = proximalDendrite;
