@@ -37,26 +37,29 @@ public class PrintOutputChannel extends OutputChannel<InputSet<?>> {
     @Override
     protected InputSet getOutput(Collection<OutputProvider> outputProviders) {
         
+        StringBuilder sb = new StringBuilder();
+        
         for (OutputProvider val : outputProviders) {
             
-            System.out.print("(");
-            System.out.print(val.getId());
+            sb.append("(");
+            sb.append(val);
+            sb.append(" ");
             
             if (val.isOutputActive()) {
                 Input value = val.getOutput();
                 if (value != null && value.isActive()) {
-                    System.out.print("[ X ]");
+                    sb.append("[ X ]");
                 } else {
-                    System.out.print("[ _ ]");
+                    sb.append("[ _ ]");
                 }
             } else {
-                System.out.print("[   ]");
+                sb.append("[   ]");
             }
             
-            System.out.print(") ");
+            sb.append(")\n");
         }
         
-        System.out.println();
+        System.out.println(sb.toString());
         
         return null;
     }
