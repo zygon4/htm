@@ -10,6 +10,7 @@ import java.util.concurrent.BlockingQueue;
 /**
  * 
  * @author david.charubini
+ * @param <T>
  */
 public class Synapse<T extends Input<?>> implements InputReceiver<T>, OutputProvider<T> {
 
@@ -30,7 +31,6 @@ public class Synapse<T extends Input<?>> implements InputReceiver<T>, OutputProv
     
     @Override
     public boolean isOutputActive() {
-        System.out.println(this.id + ") synapse, permanence: " + this.permanence);
         return this.isConnected();
     }
     
@@ -67,7 +67,12 @@ public class Synapse<T extends Input<?>> implements InputReceiver<T>, OutputProv
         
         this.inputBuffer.offer(input);
     }
-
+    
+    @Override
+    public String toString() {
+        return "Id: " + this.id + ", perm: " + String.format("%2f", this.permanence);
+    }
+    
     /*pkg*/ void increasePermanence() {
         this.permanence = Math.min(this.permanence + PERMANENCE_ADJUSTMENT, MAX_PERMANENCE);
     }
