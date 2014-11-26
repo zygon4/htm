@@ -14,6 +14,7 @@ import java.util.Map;
 /**
  *
  * @author zygon
+ * @param <T>
  */
 public abstract class InputChannel<T extends InputSet<?>> extends Channel {
     

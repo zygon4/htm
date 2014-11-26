@@ -10,6 +10,7 @@ import java.util.Collections;
 /**
  *
  * @author zygon
+ * @param <T>
  */
 public abstract class OutputChannel<T extends InputSet<?>> extends Channel {
    
