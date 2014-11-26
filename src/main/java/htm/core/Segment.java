@@ -1,6 +1,7 @@
 
 package htm.core;
 
+import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.AtomicDouble;
 import java.util.Collection;
 import java.util.Random;
@@ -42,7 +43,7 @@ public class Segment {
     
     // Having the boost here is a bit sketchy - this sort of pushes this into 
     // the realm of being a proximal dendrite segment.
-    private double boost = new Random().nextDouble();
+    private final double boost = new Random().nextDouble();
     
     private volatile boolean isActive = false;
     
@@ -84,6 +85,9 @@ public class Segment {
     public void process() {
         double excitation = this.inputConductor.getValue();
         double inhibition = this.inhibitionProvider.getValue();
+        
+        Preconditions.checkState(excitation >= 0.0 && excitation <= 1.0);
+        Preconditions.checkState(inhibition >= 0.0 && inhibition <= 1.0);
         
         // TODO: move boost down as feedback?????
         // add boost if apppropriate
