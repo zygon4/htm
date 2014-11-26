@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author zygon
  */
-class Feedback {
+public class Feedback {
 
     public static enum Type {
         ACTIVE_DUTY_CYCLE,
