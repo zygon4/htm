@@ -9,6 +9,7 @@ import java.util.Collection;
 /**
  *
  * @author zygon
+ * @param <T>
  */
 public class SynapseSet<T extends Input<?>> implements InputConductor {
 
