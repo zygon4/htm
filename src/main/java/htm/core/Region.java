@@ -16,7 +16,8 @@ public class Region {
 
     private static int SEGMENT_ID = 0;
     
-    private static ProximalSegment createProximalSegment(int feedForwardInputCount, Collection<InputReceiver> inputReceivers, Collection<OutputProvider> outputProvider) {
+    private static ProximalSegment createProximalSegment(int feedForwardInputCount, 
+            Collection<InputReceiver> inputReceivers, Collection<OutputProvider> outputProvider) {
         Collection<Synapse> synapses = Lists.newArrayList();
     
         int SYN_ID = 0;
@@ -62,6 +63,8 @@ public class Region {
             columns.add(new Column("col_"+(i+1), segment, null));
             segments.add(segment);
         }
+        
+        // TODO: create/set cells
         
         Column[] cols = columns.toArray(new Column[columns.size()]);
         
