@@ -51,11 +51,16 @@ public class Segment {
     private InputConductor inputConductor = null;
     private InhibitionProvider inhibitionProvider = null;
     
-    public Segment(int id, InputConductor inputConductor, InhibitionProvider inhibitionProvider) {
+    public Segment (int id, InputConductor inputConductor, InhibitionProvider inhibitionProvider) {
+        Preconditions.checkNotNull(id);
         this.id = id;
         // These can be set or passed in
         this.inputConductor = inputConductor;
         this.inhibitionProvider = inhibitionProvider;
+    }
+    
+    public Segment (int id) {
+        this(id, null, null);
     }
     
     private double getBoost(double activeDutyCycle, double minDutyCycle) {
@@ -155,16 +160,12 @@ public class Segment {
     }
 
     public void setInhibitionProvider(InhibitionProvider inhibitionProvider) {
-        if (this.inhibitionProvider != null) {
-            throw new IllegalStateException();
-        }
+        Preconditions.checkState(this.inhibitionProvider == null);
         this.inhibitionProvider = inhibitionProvider;
     }
 
     public void setInputConductor(InputConductor inputConductor) {
-        if (this.inputConductor != null) {
-            throw new IllegalStateException();
-        }
+        Preconditions.checkState(this.inputConductor == null);
         this.inputConductor = inputConductor;
     }
 }

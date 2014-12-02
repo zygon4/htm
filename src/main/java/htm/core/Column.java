@@ -1,9 +1,11 @@
 
 package htm.core;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AbstractScheduledService;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,18 +18,33 @@ public class Column extends AbstractScheduledService {
     
     private final String id;
     private final ProximalSegment proximalDendrite;
-    private final Collection<Cell> cells;
+    private final Collection<Cell> cells = Lists.newArrayList();
     
     private Collection<Column> neighbors;
 
-    public Column(String id, ProximalSegment proximalDendrite, Collection<Cell> cells) {
+    public Column (String id, ProximalSegment proximalDendrite, Collection<Cell> cells) {
         super();
+        Preconditions.checkNotNull(cells);
         this.id = id;
         this.proximalDendrite = proximalDendrite;
-        this.cells = cells;
+        this.cells.addAll(cells);
+    }
+    
+    public Column(String id, ProximalSegment proximalDendrite) {
+        this (id, proximalDendrite, Collections.EMPTY_LIST);
     }
 
+    public void add (Cell cell) {
+        this.cells.add(cell);
+    }
+
+    /*pkg*/ Collection<Cell> getCells() {
+        return this.cells;
+    }
+    
     public String getDisplayString() {
+        // Checking for active could be intensive. Consider caching
+        // or sparingly using this method.
         return "Column [" + this.id + "] active [" + this.isActive() + "]";
     }
     
@@ -36,8 +53,6 @@ public class Column extends AbstractScheduledService {
         
         for (Column localColumn : this.neighbors) {
             localSegments.add(localColumn.proximalDendrite);
-            
-            // TBD: add distral dendrites?
         }
         
         return localSegments;
@@ -55,14 +70,13 @@ public class Column extends AbstractScheduledService {
         return this.proximalDendrite.isActive();
     }
     
-    // TODO:
     private boolean isHorizontalActive() {
         
-//        for (Cell cell : this.cells) {
-//            if (cell.isActive()) {
-//                return true;
-//            }
-//        }
+        for (Cell cell : this.cells) {
+            if (cell.isActive()) {
+                return true;
+            }
+        }
         
         return false;
     }
@@ -75,9 +89,17 @@ public class Column extends AbstractScheduledService {
         this.proximalDendrite.learn(this.isActive(), getNeighboringSegments());
     }
     
+    protected void doTemporalPooling() {
+        for (Cell cell : this.cells) {
+//            cell.process();
+//            cell.learn();
+        }
+    }
+    
     @Override
     protected void runOneIteration() throws Exception {
         this.doSpatialPooling();
+        this.doTemporalPooling();
     }
 
     @Override
