@@ -35,6 +35,7 @@ public class SynapseTest {
         Assert.assertEquals(Boolean.TRUE, testInput.getValue());
         
         synapse.send(testInput);
+        synapse.activateNewInput();
         
         Assert.assertTrue(synapse.getOutput().isActive());
         
@@ -60,6 +61,7 @@ public class SynapseTest {
         Assert.assertEquals(Boolean.TRUE, testInput.getValue());
         
         synapse.send(testInput);
+        synapse.activateNewInput();
         
         Assert.assertTrue(synapse.getOutput().isActive());
         
