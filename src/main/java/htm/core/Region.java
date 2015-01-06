@@ -146,13 +146,13 @@ public class Region {
     
     /*pkg*/ void initialize() {
         for (Column col : this.columns) {
-            col.start();
+            col.startAsync();
         }
     }
     
     /*pkg*/ void uninitialize() {
         for (Column col : this.columns) {
-            col.stopAndWait();
+            col.stopAsync();
         }
     }
 }

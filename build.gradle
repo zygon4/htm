@@ -11,9 +11,12 @@ repositories {
 dependencies {
 //    compile group: 'commons-daemon', name: 'commons-daemon', version: '1.0.15'
 //    compile group: 'org.reflections', name: 'reflections', version: '0.9.9-RC1'
-    compile group: 'org.apache.commons', name: 'commons-math3', version: '3.0'
-//    
+    compile group: 'com.google.guava', name: 'guava', version: '17.0'
+    compile group: 'org.apache.commons', name: 'commons-math3', version: '3.3'
+
 //    runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.5'
+
+    testCompile "junit:junit:4.11"
 }
 
 //sourceSets {
@@ -27,3 +30,7 @@ dependencies {
 //    }
 //}
 
+task copyToLib(type: Copy) {
+    into "$buildDir/output/lib"
+    from configurations.runtime
+}

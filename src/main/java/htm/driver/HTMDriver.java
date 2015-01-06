@@ -39,12 +39,12 @@ public class HTMDriver {
         
         for (OutputChannel oc : this.outputChannels) {
             this.htm.register(oc);
-            oc.start();
+            oc.startAsync();
         }
         
         for (InputChannel ic : this.inputChannels) {
             this.htm.register(ic);
-            ic.start();
+            ic.startAsync();
         }
         
         this.htm.initialize();
@@ -55,11 +55,11 @@ public class HTMDriver {
         this.htm.uninitialize();
         
         for (InputChannel input : this.inputChannels) {
-            input.stopAndWait();
+            input.stopAsync();
         }
         
         for (OutputChannel output : this.outputChannels) {
-            output.stopAndWait();
+            output.stopAsync();
         }
     }
     
