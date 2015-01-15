@@ -13,3 +13,6 @@ classes/
 
 # Random probably-shouldn't-exist files
 htm.iml
+/core/build/
+/sdr/build/
+/memory/build/
