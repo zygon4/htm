@@ -1,5 +1,5 @@
 
-package com.zygon.mmesh;
+package com.zygon.htm.core;
 
 import com.google.common.base.Preconditions;
 import java.util.Arrays;

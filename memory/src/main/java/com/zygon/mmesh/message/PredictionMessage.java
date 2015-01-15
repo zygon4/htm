@@ -1,7 +1,7 @@
 
 package com.zygon.mmesh.message;
 
-import com.zygon.mmesh.Identifier;
+import com.zygon.htm.core.Identifier;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Set;

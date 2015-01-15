@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AbstractScheduledService;
-import com.zygon.mmesh.Identifier;
+import com.zygon.htm.core.Identifier;
 import com.zygon.mmesh.message.Destination;
 import com.zygon.mmesh.message.Message;
 import java.util.Collection;

@@ -6,7 +6,7 @@ import com.zygon.mmesh.message.MessageQueue;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AbstractScheduledService;
-import com.zygon.mmesh.Identifier;
+import com.zygon.htm.core.Identifier;
 import com.zygon.mmesh.message.ActivationMessage;
 import com.zygon.mmesh.message.Destination;
 import com.zygon.mmesh.message.Message;

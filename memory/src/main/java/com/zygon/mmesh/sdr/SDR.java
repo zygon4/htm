@@ -2,7 +2,7 @@
 package com.zygon.mmesh.sdr;
 
 import com.google.common.base.Preconditions;
-import com.zygon.mmesh.Identifier;
+import com.zygon.htm.core.Identifier;
 import com.zygon.mmesh.core.CellGroup;
 import com.zygon.mmesh.message.ActivationMessage;
 

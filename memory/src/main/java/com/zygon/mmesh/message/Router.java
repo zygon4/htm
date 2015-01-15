@@ -3,7 +3,7 @@ package com.zygon.mmesh.message;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
-import com.zygon.mmesh.Identifier;
+import com.zygon.htm.core.Identifier;
 import java.util.Collection;
 import java.util.Map;
 

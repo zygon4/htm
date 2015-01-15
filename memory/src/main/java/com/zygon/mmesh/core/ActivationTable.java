@@ -5,7 +5,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
-import com.zygon.mmesh.Identifier;
+import com.zygon.htm.core.Identifier;
 import com.zygon.mmesh.message.ActivationMessage;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;

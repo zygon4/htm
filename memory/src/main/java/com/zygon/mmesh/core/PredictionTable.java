@@ -2,7 +2,7 @@
 package com.zygon.mmesh.core;
 
 import com.google.common.collect.Maps;
-import com.zygon.mmesh.Identifier;
+import com.zygon.htm.core.Identifier;
 import com.zygon.mmesh.message.PredictionMessage;
 import java.util.Map;
 import java.util.TreeMap;

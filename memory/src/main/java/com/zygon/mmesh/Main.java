@@ -1,5 +1,6 @@
 package com.zygon.mmesh;
 
+import com.zygon.htm.core.Identifier;
 import com.zygon.mmesh.core.CellGroup;
 import com.zygon.mmesh.sdr.SDR;
 import java.io.IOException;
