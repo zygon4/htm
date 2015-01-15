@@ -1,36 +1,24 @@
+import org.gradle.api.artifacts.*
 
-apply plugin: 'java'
+apply plugin: 'base' // To add "clean" task to the root project.
 
-repositories {
-    mavenCentral()
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
+subprojects {
+    apply from: rootProject.file('common.gradle')
+}
+
+task mergedJavadoc(type: Javadoc, description: 'Creates Javadoc from all the projects.') {
+    title = 'All modules'
+    destinationDir = new File(project.buildDir, 'merged-javadoc')
+
+    // Note: The closures below are executed lazily.
+    source {
+       subprojects*.sourceSets*.main*.allSource
+    }
+    classpath.from {
+        subprojects*.configurations*.compile*.copyRecursive({ !(it instanceof ProjectDependency); })*.resolve()
     }
 }
 
-dependencies {
-//    compile group: 'commons-daemon', name: 'commons-daemon', version: '1.0.15'
-//    compile group: 'org.reflections', name: 'reflections', version: '0.9.9-RC1'
-    compile group: 'com.google.guava', name: 'guava', version: '17.0'
-    compile group: 'org.apache.commons', name: 'commons-math3', version: '3.3'
-
-//    runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.5'
-
-    testCompile "junit:junit:4.11"
-}
-
-//sourceSets {
-//    main {
-//        java {
-//            srcDir 'src'
-//        }
-//        resources {
-//            srcDir 'src'
-//        }
-//    }
-//}
-
-task copyToLib(type: Copy) {
-    into "$buildDir/output/lib"
-    from configurations.runtime
+task wrapper(type: Wrapper, description: 'Creates and deploys the Gradle wrapper to the current directory.') {
+    gradleVersion = '1.11'
 }
