@@ -1,12 +1,12 @@
 
-package com.zygon.htm.sdr.channel.Input;
+package com.zygon.htm.core.io.channel.Input;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.zygon.htm.sdr.Input;
-import com.zygon.htm.sdr.InputReceiver;
-import com.zygon.htm.sdr.InputSet;
-import com.zygon.htm.sdr.channel.Channel;
+import com.zygon.htm.core.io.Input;
+import com.zygon.htm.core.io.InputReceiver;
+import com.zygon.htm.core.io.InputSet;
+import com.zygon.htm.core.io.channel.Channel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;

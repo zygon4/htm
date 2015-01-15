@@ -1,9 +1,9 @@
 
-package com.zygon.htm.sdr.channel.output;
+package com.zygon.htm.core.io.channel.output;
 
-import com.zygon.htm.sdr.Input;
-import com.zygon.htm.sdr.InputSet;
-import com.zygon.htm.sdr.OutputProvider;
+import com.zygon.htm.core.io.Input;
+import com.zygon.htm.core.io.InputSet;
+import com.zygon.htm.core.io.OutputProvider;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 

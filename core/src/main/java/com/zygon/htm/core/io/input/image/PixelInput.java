@@ -1,7 +1,7 @@
 
-package com.zygon.htm.sdr.input.image;
+package com.zygon.htm.core.io.input.image;
 
-import com.zygon.htm.sdr.Input;
+import com.zygon.htm.core.io.Input;
 
 /**
  *

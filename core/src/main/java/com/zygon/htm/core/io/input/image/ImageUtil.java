@@ -1,4 +1,4 @@
-package com.zygon.htm.sdr.input.image;
+package com.zygon.htm.core.io.input.image;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

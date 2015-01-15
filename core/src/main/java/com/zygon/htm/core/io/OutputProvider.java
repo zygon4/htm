@@ -1,4 +1,4 @@
-package com.zygon.htm.sdr;
+package com.zygon.htm.core.io;
 
 /**
  *

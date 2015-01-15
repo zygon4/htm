@@ -3,7 +3,7 @@ package com.zygon.htm.sdr.core;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
-import com.zygon.htm.sdr.Input;
+import com.zygon.htm.core.io.Input;
 import java.util.Map;
 
 /**

@@ -2,8 +2,8 @@
 package com.zygon.htm.sdr.core;
 
 import com.google.common.collect.Lists;
-import com.zygon.htm.sdr.InputReceiver;
-import com.zygon.htm.sdr.OutputProvider;
+import com.zygon.htm.core.io.InputReceiver;
+import com.zygon.htm.core.io.OutputProvider;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

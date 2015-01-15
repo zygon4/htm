@@ -1,5 +1,5 @@
 
-package com.zygon.htm.sdr.channel.Input;
+package com.zygon.htm.core.io.channel.Input;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Range;

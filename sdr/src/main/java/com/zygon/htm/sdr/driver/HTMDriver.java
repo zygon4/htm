@@ -2,14 +2,14 @@
 package com.zygon.htm.sdr.driver;
 
 import com.google.common.collect.Lists;
-import com.zygon.htm.sdr.InputReceiver;
-import com.zygon.htm.sdr.OutputProvider;
+import com.zygon.htm.core.io.InputReceiver;
+import com.zygon.htm.core.io.OutputProvider;
 import com.zygon.htm.sdr.core.IHTM;
-import com.zygon.htm.sdr.channel.Input.InputChannel;
-import com.zygon.htm.sdr.channel.Input.RandomInputChannel;
-import com.zygon.htm.sdr.channel.output.ImageOutputChannel;
-import com.zygon.htm.sdr.channel.output.OutputChannel;
-import com.zygon.htm.sdr.channel.output.PrintOutputChannel;
+import com.zygon.htm.core.io.channel.Input.InputChannel;
+import com.zygon.htm.core.io.channel.Input.RandomInputChannel;
+import com.zygon.htm.core.io.channel.output.ImageOutputChannel;
+import com.zygon.htm.core.io.channel.output.OutputChannel;
+import com.zygon.htm.core.io.channel.output.PrintOutputChannel;
 import com.zygon.htm.sdr.core.HTM;
 import com.zygon.htm.sdr.core.Region;
 import java.io.File;

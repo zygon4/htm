@@ -1,8 +1,8 @@
 
 package com.zygon.htm.sdr.core;
 
-import com.zygon.htm.sdr.channel.Input.InputChannel;
-import com.zygon.htm.sdr.channel.output.OutputChannel;
+import com.zygon.htm.core.io.channel.Input.InputChannel;
+import com.zygon.htm.core.io.channel.output.OutputChannel;
 
 /**
  *

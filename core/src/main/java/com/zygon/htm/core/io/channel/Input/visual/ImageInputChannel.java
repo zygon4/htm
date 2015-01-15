@@ -1,12 +1,12 @@
 
-package com.zygon.htm.sdr.channel.Input.visual;
+package com.zygon.htm.core.io.channel.Input.visual;
 
 import com.google.common.collect.Lists;
-import com.zygon.htm.sdr.Input;
-import com.zygon.htm.sdr.channel.Input.InputChannel;
-import com.zygon.htm.sdr.input.image.ImageInputSet;
-import com.zygon.htm.sdr.input.image.ImageUtil;
-import com.zygon.htm.sdr.input.image.PixelInput;
+import com.zygon.htm.core.io.Input;
+import com.zygon.htm.core.io.channel.Input.InputChannel;
+import com.zygon.htm.core.io.input.image.ImageInputSet;
+import com.zygon.htm.core.io.input.image.ImageUtil;
+import com.zygon.htm.core.io.input.image.PixelInput;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;

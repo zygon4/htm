@@ -1,8 +1,8 @@
 
-package com.zygon.htm.sdr.input.image;
+package com.zygon.htm.core.io.input.image;
 
 import com.google.common.collect.Lists;
-import com.zygon.htm.sdr.InputSet;
+import com.zygon.htm.core.io.InputSet;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;

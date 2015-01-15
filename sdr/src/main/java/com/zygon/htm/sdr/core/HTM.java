@@ -1,10 +1,10 @@
 
 package com.zygon.htm.sdr.core;
 
-import com.zygon.htm.sdr.InputReceiver;
-import com.zygon.htm.sdr.OutputProvider;
-import com.zygon.htm.sdr.channel.Input.InputChannel;
-import com.zygon.htm.sdr.channel.output.OutputChannel;
+import com.zygon.htm.core.io.InputReceiver;
+import com.zygon.htm.core.io.OutputProvider;
+import com.zygon.htm.core.io.channel.Input.InputChannel;
+import com.zygon.htm.core.io.channel.output.OutputChannel;
 import java.util.Collection;
 
 /**

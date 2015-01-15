@@ -1,7 +1,7 @@
 
-package com.zygon.htm.sdr.channel.Input;
+package com.zygon.htm.core.io.channel.Input;
 
-import com.zygon.htm.sdr.InputSet;
+import com.zygon.htm.core.io.InputSet;
 import java.util.Collection;
 
 /**

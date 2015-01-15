@@ -1,5 +1,5 @@
 
-package com.zygon.htm.sdr;
+package com.zygon.htm.core.io;
 
 import java.util.concurrent.ArrayBlockingQueue;
 

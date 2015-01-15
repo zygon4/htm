@@ -2,9 +2,9 @@
 package com.zygon.htm.sdr.core;
 
 import com.google.common.collect.Queues;
-import com.zygon.htm.sdr.Input;
-import com.zygon.htm.sdr.InputReceiver;
-import com.zygon.htm.sdr.OutputProvider;
+import com.zygon.htm.core.io.Input;
+import com.zygon.htm.core.io.InputReceiver;
+import com.zygon.htm.core.io.OutputProvider;
 import java.util.concurrent.BlockingQueue;
 
 /**

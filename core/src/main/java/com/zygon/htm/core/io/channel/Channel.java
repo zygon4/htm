@@ -1,5 +1,5 @@
 
-package com.zygon.htm.sdr.channel;
+package com.zygon.htm.core.io.channel;
 
 import com.google.common.util.concurrent.AbstractScheduledService;
 import java.util.concurrent.TimeUnit;
