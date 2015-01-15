@@ -1,5 +1,5 @@
 
-package com.zygon.mmesh.core;
+package com.zygon.htm.memory.core;
 
 import com.google.common.collect.Sets;
 import com.zygon.htm.core.Identifier;

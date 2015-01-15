@@ -1,9 +1,8 @@
 
-package com.zygon.mmesh.core;
+package com.zygon.htm.memory.core;
 
 import com.google.common.collect.Maps;
 import com.zygon.htm.core.Identifier;
-import com.zygon.mmesh.message.PredictionMessage;
 import java.util.Map;
 import java.util.TreeMap;
 

@@ -1,5 +1,5 @@
 
-package com.zygon.mmesh.message;
+package com.zygon.htm.memory.core;
 
 import com.zygon.htm.core.message.Message;
 import com.zygon.htm.core.Identifier;

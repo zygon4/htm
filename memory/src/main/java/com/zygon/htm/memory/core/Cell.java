@@ -1,5 +1,5 @@
 
-package com.zygon.mmesh.core;
+package com.zygon.htm.memory.core;
 
 import com.zygon.htm.core.message.Router;
 import com.zygon.htm.core.message.MessageQueue;
@@ -7,10 +7,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AbstractScheduledService;
 import com.zygon.htm.core.Identifier;
-import com.zygon.mmesh.message.ActivationMessage;
 import com.zygon.htm.core.message.Destination;
 import com.zygon.htm.core.message.Message;
-import com.zygon.mmesh.message.PredictionMessage;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;

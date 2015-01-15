@@ -1,5 +1,5 @@
 
-package com.zygon.mmesh.core;
+package com.zygon.htm.memory.core;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;

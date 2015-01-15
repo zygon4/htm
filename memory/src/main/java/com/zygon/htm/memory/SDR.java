@@ -1,20 +1,22 @@
 
-package com.zygon.mmesh.sdr;
+package com.zygon.htm.memory;
 
 import com.google.common.base.Preconditions;
 import com.zygon.htm.core.Identifier;
-import com.zygon.mmesh.core.CellGroup;
-import com.zygon.mmesh.message.ActivationMessage;
+import com.zygon.htm.memory.core.CellGroup;
+import com.zygon.htm.memory.core.ActivationMessage;
 
 /**
  * Sparse Distributed Representations are created from sensory input.  They 
  * represent a competitive vector of the total input at time T.
+ * 
+ * TODO: remove this - draw from the sdr subproject
  *
  * @author zygon
  */
 public class SDR {
     
-    private CellGroup cellGroup;
+    private final CellGroup cellGroup;
 
     public SDR (CellGroup cellGroup) {
         Preconditions.checkArgument(cellGroup != null);
