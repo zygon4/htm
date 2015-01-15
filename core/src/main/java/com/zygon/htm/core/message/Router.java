@@ -1,5 +1,5 @@
 
-package com.zygon.mmesh.message;
+package com.zygon.htm.core.message;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;

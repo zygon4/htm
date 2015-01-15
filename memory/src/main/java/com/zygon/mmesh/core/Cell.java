@@ -1,15 +1,15 @@
 
 package com.zygon.mmesh.core;
 
-import com.zygon.mmesh.message.Router;
-import com.zygon.mmesh.message.MessageQueue;
+import com.zygon.htm.core.message.Router;
+import com.zygon.htm.core.message.MessageQueue;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AbstractScheduledService;
 import com.zygon.htm.core.Identifier;
 import com.zygon.mmesh.message.ActivationMessage;
-import com.zygon.mmesh.message.Destination;
-import com.zygon.mmesh.message.Message;
+import com.zygon.htm.core.message.Destination;
+import com.zygon.htm.core.message.Message;
 import com.zygon.mmesh.message.PredictionMessage;
 import java.util.Collection;
 import java.util.Set;
