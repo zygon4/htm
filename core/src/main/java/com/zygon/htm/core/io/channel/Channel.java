@@ -49,8 +49,12 @@ public abstract class Channel extends AbstractScheduledService {
     
     @Override
     protected final void runOneIteration() throws Exception {
-        this.doRun();
-        // TODO: log?
+        try {
+            this.doRun();
+        } catch (Exception e) {
+            // TODO: log?
+            e.printStackTrace();
+        }
     }
     
     @Override
