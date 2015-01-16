@@ -3,7 +3,7 @@ package com.zygon.htm.core.io.channel.output;
 
 import com.zygon.htm.core.io.InputSet;
 import com.zygon.htm.core.io.OutputProvider;
-import com.zygon.htm.core.io.channel.Channel;
+import com.zygon.htm.core.AbstractScheduledServiceImpl;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -12,7 +12,7 @@ import java.util.Collections;
  * @author zygon
  * @param <T>
  */
-public abstract class OutputChannel<T extends InputSet<?>> extends Channel {
+public abstract class OutputChannel<T extends InputSet<?>> extends AbstractScheduledServiceImpl {
    
     private Collection<OutputProvider> outputProviders = null;
     

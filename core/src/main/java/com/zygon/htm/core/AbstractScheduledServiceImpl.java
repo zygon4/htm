@@ -1,5 +1,5 @@
 
-package com.zygon.htm.core.io.channel;
+package com.zygon.htm.core;
 
 import com.google.common.util.concurrent.AbstractScheduledService;
 import java.util.concurrent.TimeUnit;
@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author zygon
  */
-public abstract class Channel extends AbstractScheduledService {
+public abstract class AbstractScheduledServiceImpl extends AbstractScheduledService {
     
     public static final class Settings {
         
@@ -34,7 +34,7 @@ public abstract class Channel extends AbstractScheduledService {
     
     private final Scheduler scheduler;
     
-    protected Channel(Settings settings) {
+    protected AbstractScheduledServiceImpl(Settings settings) {
         super();
         
         if (settings == null) {

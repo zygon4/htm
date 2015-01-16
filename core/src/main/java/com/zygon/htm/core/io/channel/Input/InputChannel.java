@@ -6,7 +6,7 @@ import com.google.common.collect.Maps;
 import com.zygon.htm.core.io.Input;
 import com.zygon.htm.core.io.InputReceiver;
 import com.zygon.htm.core.io.InputSet;
-import com.zygon.htm.core.io.channel.Channel;
+import com.zygon.htm.core.AbstractScheduledServiceImpl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -16,7 +16,7 @@ import java.util.Map;
  * @author zygon
  * @param <T>
  */
-public abstract class InputChannel<T extends InputSet<?>> extends Channel {
+public abstract class InputChannel<T extends InputSet<?>> extends AbstractScheduledServiceImpl {
     
     // For mapping inputs to input receivers
     private Map<String, InputReceiver> inputReceiversByInputId = null;
