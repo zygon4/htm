@@ -26,30 +26,30 @@ public class IdentifierSet extends AbstractSet implements Comparable<IdentifierS
     public int compareTo(IdentifierSet t) {
         return this.hashCode() > t.hashCode() ? 1 : (this.hashCode() < t.hashCode() ? -1 : 0);
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
-        
+
         if (!(o instanceof IdentifierSet)) {
             return false;
         }
-        
+
         return this.hashCode() == o.hashCode();
     }
 
-    public Identifier[] getIdentifiers() {
+    public final Identifier[] getIdentifiers() {
         return this.identifiers.toArray(new Identifier[this.identifiers.size()]);
     }
-    
+
     @Override
     public int hashCode() {
         if (hash == -1) {
-            this.hash = Arrays.hashCode(this.identifiers.toArray(new Identifier[this.identifiers.size()]));
+            this.hash = Arrays.hashCode(getIdentifiers());
         }
-        
+
         return this.hash;
     }
 

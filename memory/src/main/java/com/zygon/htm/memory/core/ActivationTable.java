@@ -17,8 +17,8 @@ import java.util.concurrent.TimeUnit;
 public class ActivationTable {
 
     private static LoadingCache<Identifier, Identifier> createIdentifierCache (long timeout, TimeUnit units) {
-        
-        LoadingCache<Identifier, Identifier> cache = 
+
+        LoadingCache<Identifier, Identifier> cache =
             CacheBuilder.newBuilder()
                 .expireAfterWrite(timeout, units)
                 .build(
@@ -29,36 +29,36 @@ public class ActivationTable {
                         }
                     }
                 );
-        
+
         return cache;
     }
-    
+
     private final LoadingCache<Identifier,Identifier> cache = createIdentifierCache(1, TimeUnit.SECONDS);
 
     public final void add (ActivationMessage msg) throws ExecutionException {
         this.cache.put(msg.getDestination(), msg.getDestination());
     }
-    
+
     public final long getCount() {
         return this.cache.size();
     }
-    
+
     public final Set<Identifier> getAllIdentifiers() {
-        
+
         Set<Identifier> sources = Sets.newHashSet();
-        
+
         // light copy - hopefully this won't cause issues
         for (Identifier id : this.cache.asMap().values()) {
             sources.add(id);
         }
-        
+
         return sources;
     }
-    
+
     public final boolean contains(Identifier id) {
         return this.cache.getIfPresent(id) != null;
     }
-    
+
     public final boolean isEmpty() {
         return this.cache.size() == 0;
     }
