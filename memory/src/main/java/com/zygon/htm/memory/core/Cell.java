@@ -108,12 +108,14 @@ public class Cell extends AbstractScheduledService implements Destination {
         return this.cellGroupId;
     }
     
+    @Override
     public final Identifier getIdentifier() {
         return this.id;
     }
 
     // This should probably be package scoped. There should be an input controller
     // do-hickey in the core package.
+    @Override
     public final MessageQueue getQueue() {
         return this.inputQueue;
     }
