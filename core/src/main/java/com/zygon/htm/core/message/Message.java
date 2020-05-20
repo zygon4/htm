@@ -1,7 +1,7 @@
-
 package com.zygon.htm.core.message;
 
 import com.zygon.htm.core.Identifier;
+
 import java.util.Date;
 
 /**
@@ -9,17 +9,17 @@ import java.util.Date;
  * @author zygon
  */
 public class Message {
-    
+
     public static enum Type {
         ACTIVATION,
         PREDICTION,
     }
-    
+
     private final Type type;
     private final Identifier destination;
     private final double value;
     private final long timestamp;
-    
+
     private final String display;
 
     public Message(Type type, Identifier destination, double value, long timestamp) {
@@ -27,11 +27,11 @@ public class Message {
         this.value = value;
         this.destination = destination;
         this.timestamp = timestamp;
-        
+
         this.display = this.type.name() + "," + "[dest:" + this.destination + "]," + this.value + "," + new Date(this.timestamp);
     }
-    
-    public Identifier getDestination() {
+
+    public final Identifier getDestination() {
         return destination;
     }
 
@@ -39,20 +39,20 @@ public class Message {
         return display;
     }
 
-    public long getTimestamp() {
+    public final long getTimestamp() {
         return timestamp;
     }
-    
-    public Type getType() {
+
+    public final Type getType() {
         return type;
     }
 
-    public double getValue() {
+    public final double getValue() {
         return value;
     }
 
     public Message setDestination(Identifier dest) {
-	return new Message(this.type, dest, this.value, this.timestamp);
+        return new Message(this.type, dest, this.value, this.timestamp);
     }
 
     @Override
