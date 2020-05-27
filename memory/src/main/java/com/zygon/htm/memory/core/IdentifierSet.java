@@ -1,8 +1,8 @@
-
 package com.zygon.htm.memory.core;
 
 import com.google.common.collect.Sets;
 import com.zygon.htm.core.Identifier;
+
 import java.util.AbstractSet;
 import java.util.Arrays;
 import java.util.Collections;
