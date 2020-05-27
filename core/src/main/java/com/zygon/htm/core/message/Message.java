@@ -10,6 +10,8 @@ import java.util.Date;
  */
 public class Message {
 
+    // This is a bit of an anti-pattern, would rather rely on subtyping OR
+    // use a builder and make this final
     public static enum Type {
         ACTIVATION,
         PREDICTION,
@@ -28,7 +30,8 @@ public class Message {
         this.destination = destination;
         this.timestamp = timestamp;
 
-        this.display = this.type.name() + "," + "[dest:" + this.destination + "]," + this.value + "," + new Date(this.timestamp);
+        this.display = this.type.name() + "," + "[dest:" + this.destination + "],"
+                + this.value + "," + new Date(this.timestamp);
     }
 
     public final Identifier getDestination() {
