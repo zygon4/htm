@@ -27,4 +27,4 @@ Near-term hopeful changes:
 * The project has shifted a bit. What was a Java implementation of Numenta's HTM has slowly morphed into a homebrew AGI project.
 * This is still a hacking project, I have a lot of code that's still local because much of it is old and needs refactoring.
 * I'd probably recommend finding one of the Java Numenta HTM projects, consider this a general AI "playground".
-* The goal is clear, however, AGI without limits, constraints and implementation worry. If AGI saves us for damns us, we probably deserve either outcome.
+* The goal is clear, however, AGI without limits, constraints and implementation worry. If AGI saves us or damns us, we probably deserve either outcome.
