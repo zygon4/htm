@@ -1,35 +1,69 @@
-
 package com.zygon.htm.motor.sensor;
 
-import com.google.common.base.Preconditions;
 import com.zygon.htm.core.AbstractScheduledServiceImpl;
+
+import java.util.Objects;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author zygon
- * @param <T>
  */
-public final class ScheduledMonitor<T> extends AbstractScheduledServiceImpl {
+public final class ScheduledSensor extends AbstractScheduledServiceImpl {
 
-    private final Sensor<T> sensor;
-    private final ValueHandler<T> monitorValueHandler;
+    private static final Logger logger = LoggerFactory.getLogger(ScheduledSensor.class);
 
-    public ScheduledMonitor(Settings settings, Sensor<T> sensor, ValueHandler<T> sensorValueHandler) {
+    private final Sensor sensor;
+    private final ReadingHandler<Reading> sensorValueHandler;
+
+    public ScheduledSensor(Settings settings, Sensor sensor, ReadingHandler<Reading> sensorValueHandler) {
         super(settings);
-        Preconditions.checkNotNull(sensor);
-        Preconditions.checkNotNull(sensorValueHandler);
 
-        this.sensor = sensor;
-        this.monitorValueHandler = sensorValueHandler;
+        this.sensor = Objects.requireNonNull(sensor);
+        this.sensorValueHandler = Objects.requireNonNull(sensorValueHandler);
     }
 
     @Override
     protected void doRun() throws Exception {
-        Reading<T> reading = this.sensor.getReading();
 
-        if (reading != null) {
-            T val = reading.getValue();
-            this.monitorValueHandler.handle(val);
+        switch (sensor.getState()) {
+            case activated:
+                logger.info("Sensor {} is {}. Reading.", sensor.getName(), sensor.getState());
+                Reading reading = this.sensor.getReading();
+
+                if (reading != null) {
+//                    byte[] val = reading.getValue();
+//                    System.out.println(sensor.getName() + " read value " + Arrays.toString(val));
+
+                    this.sensorValueHandler.handle(sensor.getName(), reading);
+                }
+                break;
+            case activating:
+                logger.info("Sensor {} is {}. Doing nothing.", sensor.getName(), sensor.getState());
+                // keep waiting
+                break;
+            case errored:
+                logger.info("Sensor {} is {}. Stopping.", sensor.getName(), sensor.getState());
+                try {
+                    sensor.doStop();
+                } catch (SensorLifecycleException se) {
+                    // TBD: log
+                }
+            // FALL THROUGH
+            case idle:
+                logger.info("Sensor {} is {}. Starting.", sensor.getName(), sensor.getState());
+                try {
+                    sensor.doStart();
+                } catch (SensorLifecycleException se) {
+                    // TBD: log
+                }
         }
+    }
+
+    @Override
+    protected void shutDown() throws Exception {
+        sensor.doStop();
     }
 }

@@ -1,11 +1,10 @@
-
 package com.zygon.htm.core.io.channel.output;
 
 import com.zygon.htm.core.io.Input;
 import com.zygon.htm.core.io.InputSet;
 import com.zygon.htm.core.io.OutputProvider;
+
 import java.util.Collection;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -13,38 +12,29 @@ import java.util.concurrent.TimeUnit;
  */
 public class PrintOutputChannel extends OutputChannel<InputSet<?>> {
 
-    private static Settings createSettings() {
-        Settings settings = new Settings();
-        
-        settings.setPeriod(5);
-        settings.setTimeUnit(TimeUnit.SECONDS);
-        
-        return settings;
-    }
-    
     public PrintOutputChannel() {
-        super(createSettings());
+        super(Settings.create(5));
     }
 
     @Override
     protected void doWrite(InputSet<?> values) {
 //        Collection<?> inputs = values.getInputs();
 //        for (Input<?> value : values.getInputs()) {
-//            
+//
 //        }
     }
 
     @Override
     protected InputSet getOutput(Collection<OutputProvider> outputProviders) {
-        
+
         StringBuilder sb = new StringBuilder();
-        
+
         for (OutputProvider val : outputProviders) {
-            
+
             sb.append("(");
             sb.append(val);
             sb.append(" ");
-            
+
             if (val.isOutputActive()) {
                 Input value = val.getOutput();
                 if (value != null && value.isActive()) {
@@ -55,12 +45,12 @@ public class PrintOutputChannel extends OutputChannel<InputSet<?>> {
             } else {
                 sb.append("[   ]");
             }
-            
+
             sb.append(")\n");
         }
-        
+
         System.out.println(sb.toString());
-        
+
         return null;
     }
 }

@@ -1,0 +1,16 @@
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = ''
+}
+
+dependencies {
+    compile project(':motor')
+    // compile project(':core:motor')
+    
+    // https://mvnrepository.com/artifact/org.jcodec/jcodec
+    compile group: 'org.jcodec', name: 'jcodec', version: '0.1.9'
+
+    compile group: 'org.openpnp', name: 'opencv', version: '3.2.0-1'
+    
+//    compile group: 'com.typesafe.akka', name: 'akka-actor_2.11', version: '2.4.14'
+}

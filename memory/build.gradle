@@ -1,6 +1,6 @@
 
 if (!hasProperty('mainClass')) {
-    ext.mainClass = ''
+    ext.mainClass = 'com.zygon.htm.memory.sponge.MemoryDriver'
 }
 
 dependencies {

@@ -1,0 +1,14 @@
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = 'com.zygon.htm.agent.AgentDriver'
+}
+
+dependencies {
+    compile project(':core')
+    compile project(':memory')
+    compile project(':motor')
+
+    compile group: 'javax.media', name: 'jmf', version: '2.1.1e'
+    compile files('/home/zygon/src/jffmpeg-1.1.0.jar')
+    compile files('/home/zygon/lib/gridworld.jar')
+}

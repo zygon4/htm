@@ -1,26 +1,27 @@
 
 package com.zygon.htm.motor.sensor;
 
+import java.util.Objects;
+
 /**
  *
  * @author zygon
- * @param <T>
  */
-public final class Reading<T> {
+public class Reading {
 
-    private final T value;
+    private final byte[] value;
     private final long timestamp;
 
-    public Reading(T value, long timestamp) {
-        this.value = value;
+    public Reading(byte[] value, long timestamp) {
+        this.value = Objects.requireNonNull(value);
         this.timestamp = timestamp;
     }
 
-    public long getTimestamp() {
+    public final long getTimestamp() {
         return timestamp;
     }
 
-    T getValue() {
+    public final byte[] getValue() {
         return value;
     }
 }

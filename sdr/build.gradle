@@ -5,4 +5,7 @@ if (!hasProperty('mainClass')) {
 
 dependencies {
     compile project(':core')
+    compile project(':motor')
+    
+    compile group: 'org.numenta', name: 'htm.java', version: '0.6.13-alpha'
 }

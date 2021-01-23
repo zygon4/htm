@@ -35,13 +35,7 @@ public class SensorTester {
     private static final int FORMAT_INDEX = 10; // the index is obtained from JMF Registry
     
     private static Collection<File> getImageFiles() {
-        FilenameFilter filter = new FilenameFilter() {
-
-            @Override
-            public boolean accept(File dir, String name) {
-                return dir.isDirectory() && name.endsWith(".jpg");
-            }
-        };
+        FilenameFilter filter = (File dir, String name) -> dir.isDirectory() && name.endsWith(".jpg");
 
         File inputDir = new File(CORE_PATH + "/src/main/java/com/zygon/htm/core/io/input/image/erin");
         List<File> inputFiles = Lists.newArrayList();

@@ -1,0 +1,10 @@
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = ''
+}
+
+dependencies {
+    compile project(':core')
+    
+    compile group: 'com.typesafe.akka', name: 'akka-actor_2.11', version: '2.4.14'
+}
